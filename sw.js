@@ -1,6 +1,6 @@
 // install service worker
-const staticWeb = "native-app-v";
-const dynamicWeb = 'native-dynamic-app-v1';
+const staticWeb = "native-app-v1";
+const dynamicWeb = 'native-dynamic-app-v';
 const assets = [
     'index.html',
     'app.js',
