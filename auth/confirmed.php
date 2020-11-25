@@ -16,6 +16,22 @@ include ('db.php');
         }
 
     }
+    if(isset($_POST['enableaboutstatus'])){
+        $id = $_POST['enableaboutstatus'];
+    $currentstatus = "enabled";
+    $status = "disabled";
+
+    $q = queryDbs("UPDATE about SET status = '$status' ");
+    if($q){
+        $cu = queryDbs("UPDATE about SET status='$currentstatus' WHERE id='$id' ");
+        if($cu){
+            rediret("dashboard.php");
+        }
+    }else{
+        echo " Fail to Update ". querryError();
+    }
+
+}
 
 
     if(isset($_POST['enablehomedelete'])){
@@ -35,6 +51,30 @@ include ('db.php');
         unlink($img);
 
         $q = queryDbs("DELETE FROM home WHERE id = '$id' ");
+        if($q){
+            rediret("dashboard.php");
+        }
+    }
+
+    if(isset($_POST['aboutdeleteconfirm'])){
+        $id = $_POST['aboutdeleteconfirm'];
+        $d = queryDbs("SELECT* FROM about WHERE id ='$id' ");
+        $da = data($d);
+        $profile = $da['profile_picture'];
+        $background = $da['background_picture'];
+        $desc = $da['description'];
+        $dom = new \DOMDocument();
+
+        $dom->loadHTML(html_entity_decode($desc), libxml_use_internal_errors(true));
+                $images = $dom->getElementsByTagName('img');
+                foreach ($images as $image) {
+                    $src = $image->getAttribute('src');
+                    unlink($src);
+                }
+        unlink($profile);
+        unlink($background);
+
+        $q = queryDbs("DELETE FROM about WHERE id = '$id' ");
         if($q){
             rediret("dashboard.php");
         }

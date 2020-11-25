@@ -179,27 +179,27 @@ if(!empty($_SESSION['loginsuccess'])){
                             <tbody>
                               <?php 
                               $ho =1;
-                                $h = queryDbs("SELECT* FROM home");
+                                $h = queryDbs("SELECT* FROM about");
                                 while($home = data($h)){
 
                                 
                               ?>
                                 <tr>
                                     <td><?php echo $ho; ?></td>
-                                    <td><?php echo html_entity_decode($home['greet']); ?></td>
-                                    <td><?php echo html_entity_decode($home['description']); ?></td>
-                                    <td><img src="<?php echo $home['profile_picture']; ?>" style="width: 30%;"  alt=""></td>
+                                    <td><img src="<?php echo $home['background_picture']; ?>" style="width: 30%;"  alt=""></td>
                                    
+                                    <td><img src="<?php echo $home['profile_picture']; ?>" style="width: 30%;"  alt=""></td>
+                                    <td><?php echo html_entity_decode($home['description']); ?></td>
                                     <td>
                                          <?php 
                                           if($home['status']=="enabled"){
                                         ?>
 
-                                       <h4> <a href="#abooutstatus"  class="text-success" data-toggle="modal" about="<?php echo $home['id'] ?>">Enabled<span class="text-success mr-2 fa fa-check"></span></a></h4> 
+                                       <h4> <a href="#aboutstatus"  class="text-success" data-toggle="modal" about="<?php echo $home['id'] ?>">Enabled<span class="text-success mr-2 fa fa-check"></span></a></h4> 
                                        <?php 
                                           }else{
                                        ?>
-                                          <h4 > <a href="aboutstatus" class="text-danger"  data-toggle="modal" about="<?php echo $home['id'] ?>">Disabled<span class="text-danger mr-2 fa fa-window-close"></span></a></h4> 
+                                          <h4 > <a href="#aboutstatus" class="text-danger"  data-toggle="modal" about="<?php echo $home['id'] ?>">Disabled<span class="text-danger mr-2 fa fa-window-close"></span></a></h4> 
 
                                 <?php } ?>
                                     </td>
@@ -590,6 +590,35 @@ if(!empty($_SESSION['loginsuccess'])){
         <div id="homeedit" class="modal">
             <div class="modal-dialog">
               <div class="homeedit">
+              
+              </div>
+            </div>
+          </div>
+
+
+
+          <!-- about -->
+          <div id="aboutstatus" class="modal">
+            <div class="modal-dialog">
+              <div class="aboutstatus">
+              
+              </div>
+            </div>
+          </div>
+
+           <!-- home delete -->
+        <div id="aboutdelete" class="modal">
+            <div class="modal-dialog">
+              <div class="aboutdelete">
+              
+              </div>
+            </div>
+          </div>
+
+           <!-- home edit -->
+        <div id="aboutedit" class="modal">
+            <div class="modal-dialog">
+              <div class="aboutedit">
               
               </div>
             </div>

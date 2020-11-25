@@ -228,4 +228,47 @@ $('#homeedit').on('show.bs.modal', function(e){
 })
 })
 
+
+    // about
+    // status
+$('#aboutstatus').on('show.bs.modal', function(e){
+  var id = $(e.relatedTarget).attr('about');
+  $.ajax({
+  type:'post',
+  url:'confirm.php',
+  data:'aboutstatus='+id,
+  success:function(data){
+    $('.aboutstatus').html(data);
+  }
+})
+})
+
+// delete
+$('#aboutdelete').on('show.bs.modal', function(e){
+  var id = $(e.relatedTarget).attr('about');
+  $.ajax({
+  type:'post',
+  url:'confirm.php',
+  data:'aboutdelete='+id,
+  success:function(data){
+    $('.aboutdelete').html(data);
+  }
+})
+})
+
+// homw edit
+
+// delete
+$('#aboutedit').on('show.bs.modal', function(e){
+  var id = $(e.relatedTarget).attr('about');
+  $.ajax({
+  type:'post',
+  url:'confirm.php',
+  data:'aboutedit='+id,
+  success:function(data){
+    $('.aboutedit').html(data);
+  }
+})
+})
+
 })

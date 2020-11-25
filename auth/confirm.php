@@ -21,7 +21,28 @@ if(isset($_POST['homestatus'])){
     </div>
       </div>';
     }
-
+    if(isset($_POST['aboutstatus'])){
+      $id = $_POST['aboutstatus'];
+      $q = queryDbs("SELECT* FROM about WHERE id = '$id' ");
+      $data = data($q);
+      echo '<div class="modal-content">
+      <div class="modal-header">
+         <div class ="modal-body">
+              <h5>Are you sure you want enable </h5>
+              <img src="'.$data['profile_picture'].'" style="width: 40%;" class="card-img">
+         
+         </div>
+         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+        <div class="modal-footer">
+     
+         <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+         <input type="hidden" value="'.$id.'" name="enableaboutstatus">
+         <button class="btn btn-success btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">enable</button>
+         </form>
+      </div>
+        </div>';
+      }
 
     if(isset($_POST['homedelete'])){
       $id = $_POST['homedelete'];
@@ -45,7 +66,28 @@ if(isset($_POST['homestatus'])){
         </div>';
       }
 
-
+      if(isset($_POST['aboutdelete'])){
+        $id = $_POST['aboutdelete'];
+        $q = queryDbs("SELECT* FROM about WHERE id = '$id' ");
+        $data = data($q);
+        echo '<div class="modal-content">
+        <div class="modal-header">
+           <div class ="modal-body">
+                <h5>Are you sure you want delete</h5>
+           
+           </div>
+           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          <div class="modal-footer">
+       
+           <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+           <input type="hidden" value="'.$id.'" name="aboutdeleteconfirm">
+           <button class="btn btn-danger btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">delete</button>
+           </form>
+        </div>
+          </div>';
+        }
+  
 
       if(isset($_POST['homeedit'])){
         $id = $_POST['homeedit'];
@@ -78,6 +120,46 @@ if(isset($_POST['homestatus'])){
         </div>
           </div>';
         }
+
+
+        if(isset($_POST['aboutedit'])){
+          $id = $_POST['aboutedit'];
+          $q = queryDbs("SELECT* FROM about WHERE id = '$id' ");
+          $data = data($q);
+          echo '<div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-body">
+              <p class="text-danger updateaboutformerror"></p>
+   <form id="updateaboutform" enctype="multipart/form-data">
+       <div class="form-group">
+           <label for="usr">background picture:</label><br>
+           <img src="'.$data['background_picture'].'" style="width: 40%;" class="card-img">
+          </div>
+          <div class="form-group">
+            <label for="usr">Profile Picture:</label><br>
+            <img src="'.$data['profile_picture'].'" style="width: 40%;" class="card-img">
+           </div>
+
+           <div class="form-group">
+            <label for="usr">Profile Picture:</label>
+            <input type="file" class="form-control" name="profilepicture" id="usr">
+          </div>
+          <div class="form-group">
+            <label for="usr">Background Picture:</label>
+            <input type="file" class="form-control" name="backgroundpicture" id="usr">
+          </div>
+         <div class="form-group">
+           <label for="comment">Description:</label>
+           <textarea class="form-control textarea" name="description" rows="5" id="comment">'. html_entity_decode($data['description']).'</textarea>
+         </div> 
+         <input type="hidden" name="updateaboutform" value="updateaboutform">
+         <input type="hidden" name="id" value="'.$data['id'].'">
+         <button class="btn btn-success btn-lg mr-5 mt-3 float-right">Update</button>
+   </form>                        
+   </div>
+          </div>
+            </div>';
+          }
 ?>
 
 <script src="auth.js"></script>
