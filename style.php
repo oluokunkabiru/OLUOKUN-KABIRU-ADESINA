@@ -1,3 +1,9 @@
+<?php
+header("Content-type: text/css; charset: UTF-8"); 
+$navcolor = "#cacccc";
+
+ ?>
+
 .navbar-brand img{
     /* height: 50px; */
     width: 40px;
@@ -9,7 +15,7 @@
     
 }
 .navbar{
-  background-color:  #13a9dbe3 ;
+  background-color:  <?php echo $navcolor ?> ;
 }
 .nav-item .active{
     border-bottom: rgb(11, 151, 86) 2px dotted;

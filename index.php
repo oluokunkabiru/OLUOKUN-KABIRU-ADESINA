@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="bootstrap/animate.css">
-    <link rel="stylesheet" href="fontawesome-free/css/all.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="image/9.jpg">
-    <link rel="manifest" href="manifest.json">
-    <title>OLUOKUN KABIRU ADESINA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OLUOKUN KABIRU ADESINA</title>
+
+
+<link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+<link rel="stylesheet" href="bootstrap/animate.css">
+<link rel="stylesheet" href="fontawesome-free/css/all.css">
+<link rel="stylesheet" href="style.php">
+<link rel="icon" href="image/9.jpg">
+<link rel="manifest" href="manifest.jso">
+
 </head>
 <body>
     <!-- navigation bar -->
