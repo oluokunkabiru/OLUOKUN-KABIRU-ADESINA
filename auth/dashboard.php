@@ -2,6 +2,7 @@
 session_start();
 if(!empty($_SESSION['loginsuccess'])){
     $user  = $_SESSION['loginsuccess'];
+    include('db.php');
 
 ?>
 <!DOCTYPE html>
@@ -64,24 +65,96 @@ if(!empty($_SESSION['loginsuccess'])){
                         <div class="card-title"><h3 class="text-center text-uppercase">Home settings</h3></div>
                     </div>
                     <div class="card-body">
-                      <p class="text-danger homedformerror"></p>
-                        <form id="homeform" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label for="usr">Greeting:</label>
-                                <input type="text" name="greet" class="form-control" id="usr">
-                              </div>
-                              <div class="form-group">
-                                <label for="comment">Description:</label>
-                                <textarea class="form-control textarea" name="description" rows="5" id="comment"></textarea>
-                              </div> 
-                              <div class="form-group">
-                                <label for="usr">Profile Picture:</label>
-                                <input type="file" class="form-control" name="profilepicture" id="usr">
-                              </div>
-                              <button class="btn btn-success btn-lg mr-5 mt-3 float-right">Update</button>
-                        </form>
+                    <a href="#addhomedescription" data-toggle="modal" class="btn btn-primary p-2 text-uppercase">add home settings</a>
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                <th>S/N</th>
+                                <th>Greet</th>
+                                <th>Description</th>
+                                <th>Profile Picture</th>
+                                <th>Status</th>
+                                <th>Date Added</th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              <?php 
+                              $ho =1;
+                                $h = queryDbs("SELECT* FROM home");
+                                while($home = data($h)){
+
+                                
+                              ?>
+                                <tr>
+                                    <td><?php echo $ho; ?></td>
+                                    <td><?php echo html_entity_decode($home['greet']); ?></td>
+                                    <td><?php echo html_entity_decode($home['description']); ?></td>
+                                    <td><img src="<?php echo $home['profile_picture']; ?>" style="width: 20%;"  alt=""></td>
+                                   
+                                    <td>
+                                         <?php 
+                                          if($home['status']=="enabled"){
+                                        ?>
+
+                                       <h4> <a href="#homestatus"  class="text-success" data-toggle="modal" home="<?php echo $home['id'] ?>">Enabled<span class="text-success mr-2 fa fa-check"></span></a></h4> 
+                                       <?php 
+                                          }else{
+                                       ?>
+                                          <h4 > <a href="#homestatus" class="text-danger"  data-toggle="modal" home="<?php echo $home['id'] ?>">Disabled<span class="text-danger mr-2 fa fa-window-close"></span></a></h4> 
+
+                                <?php } ?>
+                                    </td>
+                                     <td><?php echo $home['reg_date']; ?></td>
+                                    <td>
+
+                                          
+                                        <a href="#homeedit" class=" btn btn-primary" data-toggle="modal" home="<?php echo $home['id'] ?>"><span class="p-2 m-1 fa fa-edit"></span></a>
+                                        <a href="#homedelete" class=" btn btn-danger" data-toggle="modal" home="<?php echo $home['id'] ?>"><span class="p-2 m-1 fa fa-trash"></span></a>
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+
+                     
                     </div>
                 </div>
+                <div class="modal" id="addhomedescription">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                            
+                                  <!-- Modal Header -->
+                                  <div class="modal-header">
+                                    <h4 class="modal-title">Add Home Descripion</h4>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                  </div>
+                            
+                                  <!-- Modal body -->
+                                  <div class="modal-body">
+                                           <p class="text-danger homedformerror"></p>
+                                <form id="homeform" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="usr">Greeting:</label>
+                                        <input type="text" name="greet" class="form-control" id="usr">
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="comment">Description:</label>
+                                        <textarea class="form-control textarea" name="description" rows="5" id="comment"></textarea>
+                                      </div> 
+                                      <div class="form-group">
+                                        <label for="usr">Profile Picture:</label>
+                                        <input type="file" class="form-control" name="profilepicture" id="usr">
+                                      </div>
+                                      <button class="btn btn-success btn-lg mr-5 mt-3 float-right">Update</button>
+                                </form>                        
+                                </div>
+                                </div>
+                              </div>
+
+                        </div>
+
+
             </div>
             <div id="about" class="container tab-pane fade">
                 <div class="card">
@@ -422,6 +495,32 @@ if(!empty($_SESSION['loginsuccess'])){
           </div>
         </div>
     </div>
+    <!-- home status -->
+        <div id="homestatus" class="modal">
+            <div class="modal-dialog">
+              <div class="homestatus">
+              
+              </div>
+            </div>
+          </div>
+
+           <!-- home delete -->
+        <div id="homedelete" class="modal">
+            <div class="modal-dialog">
+              <div class="homedelete">
+              
+              </div>
+            </div>
+          </div>
+
+           <!-- home edit -->
+        <div id="homeedit" class="modal">
+            <div class="modal-dialog">
+              <div class="homeedit">
+              
+              </div>
+            </div>
+          </div>
 </body>
 </html>
 
@@ -532,15 +631,39 @@ header("location:../");
       if (response) {
         $('.homedformerror').html(response);
       } 
-      // if (response.ok !=null) {
-      //   window.location.assign(response.ok); 
-      //    }
+      if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+        window.location.assign('dashboard.php'); 
+         }
     },
 
   });
 
 })
+// status
+$('#homestatus').on('show.bs.modal', function(e){
+  var id = $(e.relatedTarget).attr('home');
+  $.ajax({
+  type:'post',
+  url:'confirm.php',
+  data:'homestatus='+id,
+  success:function(data){
+    $('.homestatus').html(data);
+  }
+})
+})
 
-  
+// delete
+$('#homedelete').on('show.bs.modal', function(e){
+  var id = $(e.relatedTarget).attr('home');
+  $.ajax({
+  type:'post',
+  url:'confirm.php',
+  data:'homedelete='+id,
+  success:function(data){
+    $('.homedelete').html(data);
+  }
+})
+})
+
 })
 </script>
