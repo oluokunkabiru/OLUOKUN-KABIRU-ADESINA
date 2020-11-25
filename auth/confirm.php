@@ -44,5 +44,40 @@ if(isset($_POST['homestatus'])){
       </div>
         </div>';
       }
+
+
+
+      if(isset($_POST['homeedit'])){
+        $id = $_POST['homeedit'];
+        $q = queryDbs("SELECT* FROM home WHERE id = '$id' ");
+        $data = data($q);
+        echo '<div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-body">
+            <p class="text-danger updatehomedformerror"></p>
+ <form id="updatehomeform" enctype="multipart/form-data">
+  <img src="'.$data['profile_picture'].'" style="width: 40%;" class="card-img" alt="'.ucwords($data['greet']) .'">
+     <div class="form-group">
+         <label for="usr">Greeting:</label>
+         <input type="text" name="greet" class="form-control" value="'.$data['greet'].'" id="usr">
+       </div>
+       <div class="form-group">
+         <label for="comment">Description:</label>
+         <textarea class="form-control textarea" name="description" rows="5" id="comment">'. html_entity_decode($data['description']).'</textarea>
+       </div> 
+       <input type="hidden" name="updatehomeform" value="updatehomeform">
+       <input type="hidden" name="id" value="'.$data['id'].'">
+
+       <div class="form-group">
+         <label for="usr">Profile Picture:</label>
+         <input type="file" class="form-control" name="profilepicture" id="usr">
+       </div>
+       <button class="btn btn-success btn-lg mr-5 mt-3 float-right">Update</button>
+ </form>                        
+ </div>
+        </div>
+          </div>';
+        }
 ?>
 
+<script src="auth.js"></script>

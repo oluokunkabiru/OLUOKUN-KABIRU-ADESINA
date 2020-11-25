@@ -66,7 +66,7 @@ if(!empty($_SESSION['loginsuccess'])){
                     </div>
                     <div class="card-body">
                     <a href="#addhomedescription" data-toggle="modal" class="btn btn-primary p-2 text-uppercase">add home settings</a>
-                        <table class="table table-bordered table-striped table-hover">
+                        <table class="table table-bordered table-striped table-hover table-responsive">
                             <thead>
                                 <tr>
                                 <th>S/N</th>
@@ -90,7 +90,7 @@ if(!empty($_SESSION['loginsuccess'])){
                                     <td><?php echo $ho; ?></td>
                                     <td><?php echo html_entity_decode($home['greet']); ?></td>
                                     <td><?php echo html_entity_decode($home['description']); ?></td>
-                                    <td><img src="<?php echo $home['profile_picture']; ?>" style="width: 20%;"  alt=""></td>
+                                    <td><img src="<?php echo $home['profile_picture']; ?>" style="width: 30%;"  alt=""></td>
                                    
                                     <td>
                                          <?php 
@@ -146,7 +146,7 @@ if(!empty($_SESSION['loginsuccess'])){
                                         <label for="usr">Profile Picture:</label>
                                         <input type="file" class="form-control" name="profilepicture" id="usr">
                                       </div>
-                                      <button class="btn btn-success btn-lg mr-5 mt-3 float-right">Update</button>
+                                      <button class="btn btn-success btn-lg mr-5 mt-3 float-right">Add</button>
                                 </form>                        
                                 </div>
                                 </div>
@@ -534,136 +534,7 @@ header("location:../");
 <script src="../jquery/popper.js"></script>
 <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="summernote/summernote.min.js"></script>
+<script src="auth.js"></script>
 <script>
-    $(document).ready(function(){
-    $('#loginbtn').click(function (event) {
-        event.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: 'login.php',
-            data: $('#loginform').serialize(),
-            success: function (data) {
-                var result = data;
-                $(".error").html(result);
-                if (result =="<h4 class='text-success'>Login Successfully</h4>") {
-                    window.location.assign('dashboard.php');
-                }
-               
-            }
-        });
-    })
-
-
-
-    $('.textarea').summernote({
-    height:150,
-    toolbar: [
-      // ['vb', ['goodvb']],
-        ['style', ['style']],
-        ['font', ['bold', 'italic', 'underline', 'clear', 'superscript', 'subscript']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['table', ['table']],
-        ['insert', ['link', 'picture', 'mat']],
-        ['view', ['fullscreen', 'codeview', 'help', 'undo', 'redo']]
-    ],
-   
-    callbacks: {
-      onImageUpload: function(image) {
-      editor = $(this);
-      uploadImageContent(image[0], editor);
-      },
-    // },
-    // callbacks: {
-      onMediaDelete: function (target) {
-        deleteFile(target[0].src);
-      }
-    },
-  })
-
-  function uploadImageContent(image) {
-    var data = new FormData();
-    data.append("image", image);
-    $.ajax({
-      url: 'uploadfiles.php',
-      cache: false,
-      contentType: false,
-      processData: false,
-      data: data,
-      type: "post",
-      success: function (url) {
-        var image = $('<img>').attr('src', url);
-        $('.textarea').summernote("insertNode", image[0]);
-      },
-      error: function (data) {
-        console.log(data);
-      }
-    });
-  }
-
-  function deleteFile(src) {
-    $.ajax({
-      data: { src: src },
-      type : "POST",
-      url : "filedelete.php",
-      cache: false,
-      success: function (response) {
-        // alert(response);
-      }
-    })
-  }
-
-  $('#homeform').submit(function(e){
-    // alert(xmlh.status);
-  e.preventDefault();
-  var datas = new FormData(this);
-
-  $.ajax({
-    type:'POST',
-  url:'home.php',
-    data: datas,
-    contentType:false,
-    cache:false,
-    processData:false,
-    // dataType:"JSON",
-    success: function (response) {
-      
-      if (response) {
-        $('.homedformerror').html(response);
-      } 
-      if (response =="<h3 class='text-success'>Insert successfully</h2>") {
-        window.location.assign('dashboard.php'); 
-         }
-    },
-
-  });
-
-})
-// status
-$('#homestatus').on('show.bs.modal', function(e){
-  var id = $(e.relatedTarget).attr('home');
-  $.ajax({
-  type:'post',
-  url:'confirm.php',
-  data:'homestatus='+id,
-  success:function(data){
-    $('.homestatus').html(data);
-  }
-})
-})
-
-// delete
-$('#homedelete').on('show.bs.modal', function(e){
-  var id = $(e.relatedTarget).attr('home');
-  $.ajax({
-  type:'post',
-  url:'confirm.php',
-  data:'homedelete='+id,
-  success:function(data){
-    $('.homedelete').html(data);
-  }
-})
-})
-
-})
+  
 </script>
