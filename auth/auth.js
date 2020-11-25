@@ -176,7 +176,7 @@
             success: function (response) {
               
               if (response) {
-                $('.updatehomedformerror').html(response);
+                $('.updateaboutformerror').html(response);
               } 
               if (response =="<h3 class='text-success'>Insert successfully</h2>") {
                 window.location.assign('dashboard.php'); 
