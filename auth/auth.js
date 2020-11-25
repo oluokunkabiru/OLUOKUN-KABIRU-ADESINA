@@ -130,7 +130,63 @@
       });
     
     })
-      
+ 
+    //   about form
+    $('#aboutform').submit(function(e){
+        // alert(xmlh.status);
+      e.preventDefault();
+      var datas = new FormData(this);
+    
+      $.ajax({
+        type:'POST',
+      url:'about.php',
+        data: datas,
+        contentType:false,
+        cache:false,
+        processData:false,
+        // dataType:"JSON",
+        success: function (response) {
+          
+          if (response) {
+            $('.aboutformerror').html(response);
+          } 
+          if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+            window.location.assign('dashboard.php'); 
+             }
+        },
+    
+      });
+    
+    })
+    
+        //   update home form
+        $('#updateaboutform').submit(function(e){
+            // alert(xmlh.status);
+          e.preventDefault();
+          var datas = new FormData(this);
+        
+          $.ajax({
+            type:'POST',
+          url:'confirmed.php',
+            data: datas,
+            contentType:false,
+            cache:false,
+            processData:false,
+            // dataType:"JSON",
+            success: function (response) {
+              
+              if (response) {
+                $('.updatehomedformerror').html(response);
+              } 
+              if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+                window.location.assign('dashboard.php'); 
+                 }
+            },
+        
+          });
+        
+        })
+     
 // status
 $('#homestatus').on('show.bs.modal', function(e){
   var id = $(e.relatedTarget).attr('home');
