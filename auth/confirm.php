@@ -44,6 +44,51 @@ if(isset($_POST['homestatus'])){
         </div>';
       }
 
+
+      if(isset($_POST['servicestatus'])){
+        $id = $_POST['servicestatus'];
+        $q = queryDbs("SELECT* FROM services WHERE id = '$id' ");
+        $data = data($q);
+        echo '<div class="modal-content">
+        <div class="modal-header">
+           <div class ="modal-body">
+                <h5>Are you sure you want enable <b> '. $data['technology'] .'</h5>
+           
+           </div>
+           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          <div class="modal-footer">
+       
+           <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+           <input type="hidden" value="'.$id.'" name="enableservicestatus">
+           <button class="btn btn-success btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">enable</button>
+           </form>
+        </div>
+          </div>';
+        }
+
+        if(isset($_POST['servicestatusdisabled'])){
+          $id = $_POST['servicestatusdisabled'];
+          $q = queryDbs("SELECT* FROM services WHERE id = '$id' ");
+          $data = data($q);
+          echo '<div class="modal-content">
+          <div class="modal-header">
+             <div class ="modal-body">
+                  <h5>Are you sure you want disable <b> '. $data['technology'] .'</h5>
+             
+             </div>
+             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+            <div class="modal-footer">
+         
+             <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+             <input type="hidden" value="'.$id.'" name="disableservicestatus">
+             <button class="btn btn-success btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">enable</button>
+             </form>
+          </div>
+            </div>';
+          }
+
     if(isset($_POST['homedelete'])){
       $id = $_POST['homedelete'];
       $q = queryDbs("SELECT* FROM home WHERE id = '$id' ");
@@ -87,6 +132,28 @@ if(isset($_POST['homestatus'])){
         </div>
           </div>';
         }
+
+        if(isset($_POST['servicedelete'])){
+          $id = $_POST['servicedelete'];
+          $q = queryDbs("SELECT* FROM services WHERE id = '$id' ");
+          $data = data($q);
+          echo '<div class="modal-content">
+          <div class="modal-header">
+             <div class ="modal-body">
+                  <h5>Are you sure you want delete <b>'. $data['technology'] .'</b></h5>
+             
+             </div>
+             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+            <div class="modal-footer">
+         
+             <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+             <input type="hidden" value="'.$id.'" name="servicedeleteconfirm">
+             <button class="btn btn-danger btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">delete</button>
+             </form>
+          </div>
+            </div>';
+          }
   
 
       if(isset($_POST['homeedit'])){
@@ -120,6 +187,41 @@ if(isset($_POST['homestatus'])){
         </div>
           </div>';
         }
+
+        if(isset($_POST['serviceedit'])){
+          $id = $_POST['serviceedit'];
+          $q = queryDbs("SELECT* FROM services WHERE id = '$id' ");
+          $data = data($q);
+          echo '<div class="modal-content">
+          <div class="modal-header">
+                        <h4 class="modal-title">Update Services</h4>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                      </div>
+            <div class="modal-body">
+              <p class="text-danger updateserviceformerror"></p>
+              <p class="serviceformerror text-danger text-center"></p>
+              <div class="modal-body">
+                <form id="updateserviceform">
+                  <label for="">Technology Category</label>
+                  <select class="form-control" name="category">
+                    <option selected value="'.$data['category'] .'">'. ucfirst($data['category']) .'</option>
+                    <option value="frontend">Front End</option>
+                    <option value="backend">Backend</option>
+                    <option value="framework">Framework</option>
+                  </select>
+
+                  <div class="form-group">
+                    <label for="usr">Technology:</label>
+                    <input type="text" class="form-control" value="'. ucwords($data['technology']) .'" name="technology" id="usr">
+                  </div>
+                  <input type="hidden" name="updateserviceform" value="updateserviceform">
+                  <input type="hidden" name="id" value="'.$data['id'].'">
+                  <button class="btn btn-success btn-lg mr-5 mt-3 float-right">Update</button>
+                </form>    
+   </div>
+          </div>
+            </div>';
+          }
 
 
         if(isset($_POST['aboutedit'])){

@@ -33,6 +33,29 @@ include ('db.php');
 
 }
 
+// service enable
+if(isset($_POST['enableservicestatus'])){
+    $id = $_POST['enableservicestatus'];
+$currentstatus = "enabled";
+$cu = queryDbs("UPDATE services SET status='$currentstatus' WHERE id='$id' ");
+    if($cu){
+        rediret("dashboard.php");
+    }
+
+
+}
+// service enable
+if(isset($_POST['disableservicestatus'])){
+    $id = $_POST['disableservicestatus'];
+$currentstatus = "disabled";
+$cu = queryDbs("UPDATE services SET status='$currentstatus' WHERE id='$id' ");
+    if($cu){
+        rediret("dashboard.php");
+    }
+
+
+}
+
 
     if(isset($_POST['enablehomedelete'])){
         $id = $_POST['enablehomedelete'];
@@ -50,6 +73,15 @@ include ('db.php');
                 }
         unlink($img);
 
+        $q = queryDbs("DELETE FROM home WHERE id = '$id' ");
+        if($q){
+            rediret("dashboard.php");
+        }
+    }
+
+
+    if(isset($_POST['servicedeleteconfirm'])){
+        $id = $_POST['servicedeleteconfirm'];
         $q = queryDbs("DELETE FROM home WHERE id = '$id' ");
         if($q){
             rediret("dashboard.php");
@@ -241,6 +273,34 @@ if(isset($_POST['updateaboutform'])){
         $description = test_input($_POST['description']);
         $home = queryDbs("UPDATE about SET background_picture='$background', description='$description', profile_picture='$picture' ");
         if($home){
+            echo "<h3 class='text-success'>Insert successfully</h2>";
+        }else{
+            echo "Fail to insert <br>". querryError();
+        }
+
+}
+}
+
+
+if(isset($_POST['updateserviceform'])){
+    $id = $_POST['id'];
+    $errors = [];
+
+    if(empty($_POST['category'])){
+        array_push($errors, "Category must selected");
+    }
+    if(empty($_POST['technology'])){
+        array_push($errors, "Please specify which technoloy you are using");
+    }
+    
+    foreach($errors as $error){
+        echo $error ."<br>";
+    }
+    if(count($errors)==0){
+        $category = $_POST['category'];
+        $technology = $_POST['technology'];
+        $service = queryDbs("UPDATE services SET category='$category', technology='$technology' WHERE id='$id'");
+        if($service){
             echo "<h3 class='text-success'>Insert successfully</h2>";
         }else{
             echo "Fail to insert <br>". querryError();

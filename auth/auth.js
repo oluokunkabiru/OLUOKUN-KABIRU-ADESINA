@@ -187,6 +187,33 @@
         
         })
      
+    //   update service form
+    $('#updateserviceform').submit(function(e){
+      // alert(xmlh.status);
+    e.preventDefault();
+    var datas = new FormData(this);
+  
+    $.ajax({
+      type:'POST',
+    url:'confirmed.php',
+      data: datas,
+      contentType:false,
+      cache:false,
+      processData:false,
+      // dataType:"JSON",
+      success: function (response) {
+        
+        if (response) {
+          $('.updateserviceformerror').html(response);
+        } 
+        if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+          window.location.assign('dashboard.php'); 
+           }
+      },
+  
+    });
+  
+  })
 // status
 $('#homestatus').on('show.bs.modal', function(e){
   var id = $(e.relatedTarget).attr('home');
@@ -199,6 +226,7 @@ $('#homestatus').on('show.bs.modal', function(e){
   }
 })
 })
+    
 
 // delete
 $('#homedelete').on('show.bs.modal', function(e){
@@ -225,6 +253,117 @@ $('#homeedit').on('show.bs.modal', function(e){
   success:function(data){
     $('.homeedit').html(data);
   }
+})
+})
+
+// services
+
+    //   about form
+    $('#serviceform').submit(function(e){
+      // alert(xmlh.status);
+    e.preventDefault();
+    var datas = new FormData(this);
+  
+    $.ajax({
+      type:'POST',
+    url:'services.php',
+      data: datas,
+      contentType:false,
+      cache:false,
+      processData:false,
+      // dataType:"JSON",
+      success: function (response) {
+        
+        if (response) {
+          $('.serviceformerror').html(response);
+        } 
+        if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+          window.location.assign('dashboard.php'); 
+           }
+      },
+  
+    });
+  
+  })
+  
+      //   update home form
+      $('#updateserviceform').submit(function(e){
+          // alert(xmlh.status);
+        e.preventDefault();
+        var datas = new FormData(this);
+      
+        $.ajax({
+          type:'POST',
+        url:'confirmed.php',
+          data: datas,
+          contentType:false,
+          cache:false,
+          processData:false,
+          // dataType:"JSON",
+          success: function (response) {
+            
+            if (response) {
+              $('.updateserviceformerror').html(response);
+            } 
+            if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+              window.location.assign('dashboard.php'); 
+               }
+          },
+      
+        });
+      
+      })
+   
+// status
+$('#servicestatus').on('show.bs.modal', function(e){
+var id = $(e.relatedTarget).attr('service');
+$.ajax({
+type:'post',
+url:'confirm.php',
+data:'servicestatus='+id,
+success:function(data){
+  $('.servicestatus').html(data);
+}
+})
+})
+
+$('#servicestatusdisable').on('show.bs.modal', function(e){
+  var id = $(e.relatedTarget).attr('servicedisabled');
+  $.ajax({
+  type:'post',
+  url:'confirm.php',
+  data:'servicestatusdisabled='+id,
+  success:function(data){
+    $('.servicestatusdisable').html(data);
+  }
+  })
+  })
+
+// delete
+$('#servicedelete').on('show.bs.modal', function(e){
+var id = $(e.relatedTarget).attr('service');
+$.ajax({
+type:'post',
+url:'confirm.php',
+data:'servicedelete='+id,
+success:function(data){
+  $('.servicedelete').html(data);
+}
+})
+})
+
+// homw edit
+
+// delete
+$('#serviceedit').on('show.bs.modal', function(e){
+var id = $(e.relatedTarget).attr('service');
+$.ajax({
+type:'post',
+url:'confirm.php',
+data:'serviceedit='+id,
+success:function(data){
+  $('.serviceedit').html(data);
+}
 })
 })
 
