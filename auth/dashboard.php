@@ -494,21 +494,38 @@ if (!empty($_SESSION['loginsuccess'])) {
                       <th>S/N</th>
                       <th>Icon</th>
                       <th>Link</th>
+                      <th>Name</th>
                       <th>Date Added</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
+                  <?php
+                      $ho = 1;
+                      $h = queryDbs("SELECT* FROM contacts");
+                      while ($home = data($h)) {
+
+
+                      ?>
                     <tr>
-                      <td>1</td>
-                      <td>html</td>
-                      <td>frontend</td>
-                      <td>12/21/2112</td>
-                      <td>
-                        <a href="" class=" btn btn-primary"><span class="p-3 fa fa-edit"></span></a>
-                        <a href="" class=" btn btn-danger"><span class="p-3 fa fa-trash"></span></a>
-                      </td>
+                      <td><?php echo $ho  ?></td>
+                      <td> <span class="<?php echo $home['icon'] ?>"></span></td>
+                      <td><a href="<?php echo $home['link'] ?>" target="_blank" rel="noopener noreferrer"><?php echo $home['link'] ?></a> </td>
+                      <td><a href="<?php echo $home['link'] ?>" class="nav-link" target="_blank" rel="noopener noreferrer"><?php echo $home['name'] ?></a></td>
+                     
+                          <td><?php echo $home['reg_date']; ?></td>
+                          <td>
+
+                         
+
+                            <a href="#contactedit" class=" btn btn-primary" data-toggle="modal" contact="<?php echo $home['id'] ?>"><span class="p-2 m-1 fa fa-edit"></span></a>
+                            <a href="#contactdelete" class=" btn btn-danger" data-toggle="modal" contact="<?php echo $home['id'] ?>"><span class="p-2 m-1 fa fa-trash"></span></a>
+                          </td>
                     </tr>
+                            <?php
+                          $ho++;
+                          } ?>
+                 
                   </tbody>
                 </table>
 
@@ -524,10 +541,11 @@ if (!empty($_SESSION['loginsuccess'])) {
 
                       <!-- Modal body -->
                       <div class="modal-body">
-                        <form>
+                        <p class="contactformerror text-danger"></p>
+                        <form id="addcontactform">
                           <label for="">Contact Icon</label>
-                          <select class="form-control">
-                            <option>Select Category</option>
+                          <select class="form-control" name="icon">
+                            <option value="">Select Category</option>
                             <option value="fab fa-facebook-square">Facebook</option>
                             <option value="fab fa-whatsapp-square">WhatsApp</option>
                             <option value="fab fa-github">Github</option>
@@ -536,7 +554,10 @@ if (!empty($_SESSION['loginsuccess'])) {
                             <option value="fab fa-instagram">Instagram</option>
 
                           </select>
-
+                          <div class="form-group">
+                            <label for="usr">Name:</label>
+                            <input type="text" class="form-control" name="name" id="usr">
+                          </div>
                           <div class="form-group">
                             <label for="usr">Link:</label>
                             <input type="text" class="form-control" name="link" id="usr">
@@ -787,6 +808,26 @@ if (!empty($_SESSION['loginsuccess'])) {
     <div id="projectedit" class="modal">
       <div class="modal-dialog">
         <div class="projectedit">
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- contact -->
+     <!-- ervices delete -->
+     <div id="contactdelete" class="modal">
+      <div class="modal-dialog">
+        <div class="contactdelete">
+
+        </div>
+      </div>
+    </div>
+
+    <!-- service edit -->
+    <div id="contactedit" class="modal">
+      <div class="modal-dialog">
+        <div class="contactedit">
 
         </div>
       </div>

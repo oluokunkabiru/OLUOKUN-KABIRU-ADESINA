@@ -522,4 +522,92 @@ $('#aboutedit').on('show.bs.modal', function(e){
 })
 })
 
+
+$('#addcontactform').submit(function(e){
+  // alert(xmlh.status);
+e.preventDefault();
+var datas = new FormData(this);
+
+$.ajax({
+  type:'POST',
+url:'contact.php',
+  data: datas,
+  contentType:false,
+  cache:false,
+  processData:false,
+  // dataType:"JSON",
+  success: function (response) {
+    
+    if (response) {
+      $('.contactformerror').html(response);
+    } 
+    if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+      window.location.assign('dashboard.php'); 
+       }
+  },
+
+});
+
 })
+
+  //   update home form
+  $('#updatecontactform').submit(function(e){
+      // alert(xmlh.status);
+    e.preventDefault();
+    var datas = new FormData(this);
+  
+    $.ajax({
+      type:'POST',
+    url:'confirmed.php',
+      data: datas,
+      contentType:false,
+      cache:false,
+      processData:false,
+      // dataType:"JSON",
+      success: function (response) {
+        
+        if (response) {
+          $('.updatecontactformerror').html(response);
+        } 
+        if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+          window.location.assign('dashboard.php'); 
+           }
+      },
+  
+    });
+  
+  })
+
+// delete
+$('#contactdelete').on('show.bs.modal', function(e){
+var id = $(e.relatedTarget).attr('contact');
+$.ajax({
+type:'post',
+url:'confirm.php',
+data:'contactdelete='+id,
+success:function(data){
+$('.contactdelete').html(data);
+}
+})
+})
+
+// homw edit
+
+// delete
+$('#contactedit').on('show.bs.modal', function(e){
+var id = $(e.relatedTarget).attr('contact');
+$.ajax({
+type:'post',
+url:'confirm.php',
+data:'contactedit='+id,
+success:function(data){
+$('.contactedit').html(data);
+}
+})
+})
+
+    
+    
+})
+
+

@@ -237,6 +237,49 @@ if(isset($_POST['homestatus'])){
           </div>';
             }
 
+
+            if(isset($_POST['contactedit'])){
+              $id = $_POST['contactedit'];
+              $q = queryDbs("SELECT* FROM contacts WHERE id = '$id' ");
+              $data = data($q);
+              echo '<div class="modal-content">
+          <div class="modal-header">
+          <div class ="modal-title">
+          <h3>Edit <b>'. ucwords($data['name']) .'</h3>
+     
+     </div>
+     </div>
+            <div class="modal-body">
+              <p class="text-danger updatecontactformerror"></p>
+              <form id="updatecontactform" enctype="multipart/form-data">
+              <label for="">Contact Icon</label>
+                          <select class="form-control" name="icon">
+                            <option selected value="'.$data['icon'].'">'.$data['name'].'</option>
+                            <option value="fab fa-facebook-square">Facebook</option>
+                            <option value="fab fa-whatsapp-square">WhatsApp</option>
+                            <option value="fab fa-github">Github</option>
+                            <option value="fab fa-twitter-square">Twitter</option>
+                            <option value="fab fa-linkedin">Linkedin</option>
+                            <option value="fab fa-instagram">Instagram</option>
+
+                          </select>
+                          <div class="form-group">
+                            <label for="usr">Name:</label>
+                            <input type="text" class="form-control" value="'.$data['name'].'" name="name" id="usr">
+                          </div>
+                          <div class="form-group">
+                            <label for="usr">Link:</label>
+                            <input type="text" class="form-control" value="'.$data['link'].'" name="link" id="usr">
+                          </div>
+         <input type="hidden" name="updatecontactform" value="updatecontactform">
+         <input type="hidden" name="id" value="'.$data['id'].'">
+         <button class="btn btn-success btn-lg mr-5 mt-3 float-right">Update</button>
+   </form>                        
+   </div>
+          </div>
+            </div>';
+              }
+  
         if(isset($_POST['servicedelete'])){
           $id = $_POST['servicedelete'];
           $q = queryDbs("SELECT* FROM services WHERE id = '$id' ");
@@ -258,7 +301,28 @@ if(isset($_POST['homestatus'])){
           </div>
             </div>';
           }
-  
+          if(isset($_POST['contactdelete'])){
+            $id = $_POST['contactdelete'];
+            $q = queryDbs("SELECT* FROM contacts WHERE id = '$id' ");
+            $data = data($q);
+            echo '<div class="modal-content">
+            <div class="modal-header">
+               <div class ="modal-body">
+                    <h5>Are you sure you want delete <b>'. $data['name'] .'</b></h5>
+               
+               </div>
+               <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+              <div class="modal-footer">
+           
+               <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+               <input type="hidden" value="'.$id.'" name="contactdeleteconfirm">
+               <button class="btn btn-danger btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">delete</button>
+               </form>
+            </div>
+              </div>';
+            }
+    
 
       if(isset($_POST['homeedit'])){
         $id = $_POST['homeedit'];
