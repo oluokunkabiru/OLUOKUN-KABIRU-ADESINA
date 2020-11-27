@@ -367,6 +367,118 @@ success:function(data){
 })
 })
 
+    
+
+    // project
+    //   about form
+    $('#addprojectform').submit(function(e){
+      // alert(xmlh.status);
+    e.preventDefault();
+    var datas = new FormData(this);
+  
+    $.ajax({
+      type:'POST',
+    url:'project.php',
+      data: datas,
+      contentType:false,
+      cache:false,
+      processData:false,
+      // dataType:"JSON",
+      success: function (response) {
+        
+        if (response) {
+          $('.projectformerror').html(response);
+        } 
+        if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+          window.location.assign('dashboard.php'); 
+           }
+      },
+  
+    });
+  
+  })
+  
+      //   update home form
+      $('#updateprojectform').submit(function(e){
+          // alert(xmlh.status);
+        e.preventDefault();
+        var datas = new FormData(this);
+      
+        $.ajax({
+          type:'POST',
+        url:'confirmed.php',
+          data: datas,
+          contentType:false,
+          cache:false,
+          processData:false,
+          // dataType:"JSON",
+          success: function (response) {
+            
+            if (response) {
+              $('.updateprojectformerror').html(response);
+            } 
+            if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+              window.location.assign('dashboard.php'); 
+               }
+          },
+      
+        });
+      
+      })
+   
+// status
+$('#projectstatus').on('show.bs.modal', function(e){
+var id = $(e.relatedTarget).attr('project');
+$.ajax({
+type:'post',
+url:'confirm.php',
+data:'projectstatus='+id,
+success:function(data){
+  $('.projectstatus').html(data);
+}
+})
+})
+
+$('#projectstatusdisable').on('show.bs.modal', function(e){
+  var id = $(e.relatedTarget).attr('projectdisabled');
+  $.ajax({
+  type:'post',
+  url:'confirm.php',
+  data:'projectstatusdisabled='+id,
+  success:function(data){
+    $('.projectstatusdisable').html(data);
+  }
+  })
+  })
+
+// delete
+$('#projectdelete').on('show.bs.modal', function(e){
+var id = $(e.relatedTarget).attr('project');
+$.ajax({
+type:'post',
+url:'confirm.php',
+data:'projectdelete='+id,
+success:function(data){
+  $('.projectdelete').html(data);
+}
+})
+})
+
+// homw edit
+
+// delete
+$('#projectedit').on('show.bs.modal', function(e){
+var id = $(e.relatedTarget).attr('project');
+$.ajax({
+type:'post',
+url:'confirm.php',
+data:'projectedit='+id,
+success:function(data){
+  $('.projectedit').html(data);
+}
+})
+})
+
 
     // about
     // status

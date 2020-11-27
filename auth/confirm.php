@@ -89,6 +89,51 @@ if(isset($_POST['homestatus'])){
             </div>';
           }
 
+          
+      if(isset($_POST['projectstatus'])){
+        $id = $_POST['projectstatus'];
+        $q = queryDbs("SELECT* FROM projects WHERE id = '$id' ");
+        $data = data($q);
+        echo '<div class="modal-content">
+        <div class="modal-header">
+           <div class ="modal-body">
+                <h5>Are you sure you want enable <b> '. $data['project_name'] .'</h5>
+           
+           </div>
+           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          <div class="modal-footer">
+       
+           <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+           <input type="hidden" value="'.$id.'" name="enableprojectstatus">
+           <button class="btn btn-success btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">enable</button>
+           </form>
+        </div>
+          </div>';
+        }
+
+        if(isset($_POST['projectstatusdisabled'])){
+          $id = $_POST['projectstatusdisabled'];
+          $q = queryDbs("SELECT* FROM projects WHERE id = '$id' ");
+          $data = data($q);
+          echo '<div class="modal-content">
+          <div class="modal-header">
+             <div class ="modal-body">
+                  <h5>Are you sure you want disable <b> '. $data['project_name'] .'</h5>
+             
+             </div>
+             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+            <div class="modal-footer">
+         
+             <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+             <input type="hidden" value="'.$id.'" name="disableprojectstatus">
+             <button class="btn btn-success btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">enable</button>
+             </form>
+          </div>
+            </div>';
+          }
+
     if(isset($_POST['homedelete'])){
       $id = $_POST['homedelete'];
       $q = queryDbs("SELECT* FROM home WHERE id = '$id' ");
@@ -132,6 +177,65 @@ if(isset($_POST['homestatus'])){
         </div>
           </div>';
         }
+        // project
+        if(isset($_POST['projectdelete'])){
+          $id = $_POST['projectdelete'];
+          $q = queryDbs("SELECT* FROM projects WHERE id = '$id' ");
+          $data = data($q);
+          echo '<div class="modal-content">
+          <div class="modal-header">
+             <div class ="modal-body">
+                  <h5>Are you sure you want delete <b>'.$data['project_name'] .'</b></h5>
+             
+             </div>
+             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+            <div class="modal-footer">
+         
+             <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+             <input type="hidden" value="'.$id.'" name="projectdeleteconfirm">
+             <button class="btn btn-danger btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">delete</button>
+             </form>
+          </div>
+            </div>';
+          }
+
+          if(isset($_POST['projectedit'])){
+            $id = $_POST['projectedit'];
+            $q = queryDbs("SELECT* FROM projects WHERE id = '$id' ");
+            $data = data($q);
+            echo '<div class="modal-content">
+        <div class="modal-header">
+        <div class ="modal-title">
+        <h3>Edit <b>'. ucwords($data['project_name']) .'</h3>
+   
+   </div>
+   </div>
+          <div class="modal-body">
+            <img src="'.$data['pictures'].'" style="width: 40%;" class="card-img" alt="'.ucwords($data['project_name']) .'">
+            <p class="text-danger updateprojectformerror"></p>
+            <form id="updateprojectform" enctype="multipart/form-data">
+            <div class="form-group">
+            <label for="usr">Project Picture:</label>
+            <input type="file" class="form-control" name="picture" id="usr">
+            </div>
+            <div class="form-group">
+            <label for="usr">Project Picture:</label>
+            <input type="text" class="form-control" value="'. $data['project_name'] .'" name="name" id="usr">
+            </div>
+
+            <div class="form-group">
+            <label for="comment">Project Description:</label>
+            <textarea class="form-control textarea" name="description" rows="5" id="comment">'.$data['description'].'</textarea>
+            </div>
+       <input type="hidden" name="updateprojectform" value="updateprojectform">
+       <input type="hidden" name="id" value="'.$data['id'].'">
+       <button class="btn btn-success btn-lg mr-5 mt-3 float-right">Update</button>
+ </form>                        
+ </div>
+        </div>
+          </div>';
+            }
 
         if(isset($_POST['servicedelete'])){
           $id = $_POST['servicedelete'];
@@ -162,6 +266,12 @@ if(isset($_POST['homestatus'])){
         $data = data($q);
         echo '<div class="modal-content">
         <div class="modal-header">
+        <div class ="modal-title">
+        <h5>Edit <b> '. ucwords($data['greet']) .'</h5>
+   
+   </div>
+   </div>
+
           <div class="modal-body">
             <p class="text-danger updatehomedformerror"></p>
  <form id="updatehomeform" enctype="multipart/form-data">

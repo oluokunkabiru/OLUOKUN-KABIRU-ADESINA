@@ -385,21 +385,59 @@ if (!empty($_SESSION['loginsuccess'])) {
                       <th>Project Name</th>
                       <th>Project Picture</th>
                       <th>Description</th>
+                      <th>Status</th>
                       <th>Date Added</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
+                  <?php
+                      $ho = 1;
+                      $h = queryDbs("SELECT* FROM projects");
+                      while ($home = data($h)) {
+
+
+                      ?>
                     <tr>
-                      <td>1</td>
-                      <td>html</td>
-                      <td>frontend</td>
-                      <td>12/21/2112</td>
+                      <td><?php echo $ho  ?></td>
+                      <td><?php echo ucwords($home['project_name']) ?></td>
+                      <td> <img src="<?php echo $home['pictures'] ?>" class="card-iimg w-25" alt=""></td>
+                      <td><?php echo html_entity_decode($home['description'])  ?></td>
                       <td>
-                        <a href="" class=" btn btn-primary"><span class="p-3 fa fa-edit"></span></a>
-                        <a href="" class=" btn btn-danger"><span class="p-3 fa fa-trash"></span></a>
-                      </td>
+                            <?php
+                            if ($home['status'] == "enabled") {
+                            ?>
+
+                              <h4 class="text-success ">Enabled<span class="mr-2 fa fa-check"></span></h4>
+                            <?php
+                            } else {
+                            ?>
+                              <h4 class="text-danger "> Disabled<span class="mr-2 fa fa-window-close"></a></h4>
+
+                            <?php } ?>
+                          </td>
+                          <td><?php echo $home['reg_date']; ?></td>
+                          <td>
+
+                          <?php
+                            if ($home['status'] != "enabled") {
+                            ?>
+
+                              <h4> <a href="#projectstatus" class="text-success m-2" data-toggle="modal" project="<?php echo $home['id'] ?>">Enabled</a></h4>
+                            <?php
+                            } else {
+                            ?>
+                              <h4> <a href="#projectstatusdisable" class="text-danger m-2" data-toggle="modal" projectdisabled="<?php echo $home['id'] ?>">Disabled</span></a></h4>
+
+                            <?php } ?>
+
+                            <a href="#projectedit" class=" btn btn-primary" data-toggle="modal" project="<?php echo $home['id'] ?>"><span class="p-2 m-1 fa fa-edit"></span></a>
+                            <a href="#projectdelete" class=" btn btn-danger" data-toggle="modal" project="<?php echo $home['id'] ?>"><span class="p-2 m-1 fa fa-trash"></span></a>
+                          </td>
                     </tr>
+                            <?php
+                          $ho++;
+                          } ?>
                   </tbody>
                 </table>
 
@@ -415,10 +453,15 @@ if (!empty($_SESSION['loginsuccess'])) {
 
                       <!-- Modal body -->
                       <div class="modal-body">
-                        <form>
+                        <p class="text-danger projectformerror"></p>
+                        <form id="addprojectform" enctype="multipart/form-data">
                           <div class="form-group">
                             <label for="usr">Project Picture:</label>
-                            <input type="file" class="form-control" name="prodilepicture" id="usr">
+                            <input type="file" class="form-control" name="picture" id="usr">
+                          </div>
+                          <div class="form-group">
+                            <label for="usr">Project Picture:</label>
+                            <input type="text" class="form-control" name="name" id="usr">
                           </div>
 
                           <div class="form-group">
@@ -712,6 +755,43 @@ if (!empty($_SESSION['loginsuccess'])) {
         </div>
       </div>
     </div>
+
+         <!-- project -->
+         <div id="projectstatus" class="modal">
+      <div class="modal-dialog">
+        <div class="projectstatus">
+
+        </div>
+      </div>
+    </div>
+
+    <!-- service -->
+    <div id="projectstatusdisable" class="modal">
+      <div class="modal-dialog">
+        <div class="projectstatusdisable">
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ervices delete -->
+    <div id="projectdelete" class="modal">
+      <div class="modal-dialog">
+        <div class="projectdelete">
+
+        </div>
+      </div>
+    </div>
+
+    <!-- service edit -->
+    <div id="projectedit" class="modal">
+      <div class="modal-dialog">
+        <div class="projectedit">
+
+        </div>
+      </div>
+    </div>
+
   </body>
 
   </html>

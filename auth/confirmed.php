@@ -79,6 +79,57 @@ $cu = queryDbs("UPDATE services SET status='$currentstatus' WHERE id='$id' ");
         }
     }
 
+// project
+
+
+
+// service enable
+if(isset($_POST['enableprojectstatus'])){
+$id = $_POST['enableprojectstatus'];
+$currentstatus = "enabled";
+$cu = queryDbs("UPDATE projects SET status='$currentstatus' WHERE id='$id' ");
+if($cu){
+    rediret("dashboard.php");
+}
+
+
+}
+// service enable
+if(isset($_POST['disableprojectstatus'])){
+$id = $_POST['disableprojectstatus'];
+$currentstatus = "disabled";
+$cu = queryDbs("UPDATE projects SET status='$currentstatus' WHERE id='$id' ");
+if($cu){
+    rediret("dashboard.php");
+}
+
+
+}
+
+
+if(isset($_POST['enablehomedelete'])){
+    $id = $_POST['enablehomedelete'];
+    $d = queryDbs("SELECT* FROM home WHERE id ='$id' ");
+    $da = data($d);
+    $img = $da['profile_picture'];
+    $desc = $da['description'];
+    $dom = new \DOMDocument();
+
+    $dom->loadHTML(html_entity_decode($desc), libxml_use_internal_errors(true));
+            $images = $dom->getElementsByTagName('img');
+            foreach ($images as $image) {
+                $src = $image->getAttribute('src');
+                unlink($src);
+            }
+    unlink($img);
+
+    $q = queryDbs("DELETE FROM home WHERE id = '$id' ");
+    if($q){
+        rediret("dashboard.php");
+    }
+}
+
+
 
     if(isset($_POST['servicedeleteconfirm'])){
         $id = $_POST['servicedeleteconfirm'];
@@ -309,5 +360,103 @@ if(isset($_POST['updateserviceform'])){
 }
 }
 
-    
+if(isset($_POST['updateprojectform'])){
+    $id = $_POST['id'];
+    $q = queryDbs("SELECT* FROM projects WHERE id ='$id'");
+    $da = data($q);
+    $profilep = $da['pictures'];
+    $desc = $da['description'];
+
+    $errors =[];
+if(empty($_POST['name'])){
+    array_push($errors, "Please specify project name");
+}
+
+
+if(empty($_POST['description'])){
+    array_push($errors, "Please described your project");
+}
+$target_dir = "project/";
+$picture = "";
+$uploadOk = 1;
+if($_FILES['picture']['size']!=0){
+if($_FILES['picture']['size']!=0 && !empty($_POST['name'] && $_POST['description'])){
+
+    $check = getimagesize($_FILES["picture"]["tmp_name"]);
+    if($check == false) {
+        array_push($errors, "Profile picture is not an image");
+        $uploadOk = 0;
+    } 
+
+$target_file = $target_dir . basename($_FILES["picture"]["name"]);
+
+// Check if file already exists
+if (file_exists($target_file)) {
+    array_push($errors, "Sorry,picture already exists.");
+    $uploadOk = 0;
+}
+$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+// Allow certain file formats
+if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+&& $imageFileType != "gif" && $imageFileType != "JPG" && $imageFileType != "PNG" && $imageFileType != "JPEG"
+&& $imageFileType != "GIF" ) {
+    array_push($errors, "Sorry, Picture expect only JPG, JPEG, PNG & GIF files are allowed.");
+    $uploadOk = 0;
+}
+// Check if $uploadOk is set to 0 by an error
+    if($uploadOk == 1){
+    move_uploaded_file($_FILES["picture"]["tmp_name"], $target_file) ;
+    $profile =$target_file;
+    unlink($profilep);
+    }
+}
+}else{
+    $profile = $profilep;
+}
+
+
+foreach($errors as $error){
+    echo $error ."<br>";
+}
+
+if(count($errors)==0){
+    $picture = $profile;
+    $name = test_input($_POST['name']);
+    $description = test_input($_POST['description']);
+    $status ="enabled";
+    $home = queryDbs("UPDATE projects SET project_name ='$name', pictures='$picture', description='$description' ");
+    if($home){
+        echo "<h3 class='text-success'>Insert successfully</h2>";
+    }else{
+        echo "Fail to insert <br>". querryError();
+    }
+}
+
+
+
+}
+// delete project
+if(isset($_POST['projectdeleteconfirm'])){
+    $id = $_POST['projectdeleteconfirm'];
+    $d = queryDbs("SELECT* FROM projects WHERE id ='$id' ");
+    $da = data($d);
+    $profile = $da['pictures'];
+    $desc = $da['description'];
+    $dom = new \DOMDocument();
+
+    $dom->loadHTML(html_entity_decode($desc), libxml_use_internal_errors(true));
+            $images = $dom->getElementsByTagName('img');
+            foreach ($images as $image) {
+                $src = $image->getAttribute('src');
+                unlink($src);
+            }
+    unlink($profile);
+
+    $q = queryDbs("DELETE FROM projects WHERE id = '$id' ");
+    if($q){
+        rediret("dashboard.php");
+    }
+}
+
+
 ?>
