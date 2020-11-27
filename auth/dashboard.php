@@ -587,6 +587,7 @@ if (!empty($_SESSION['loginsuccess'])) {
                     <tr>
                       <th rowspan="2">S/N</th>
                       <th colspan="3">Group</th>
+                      <th rowspan="2">Status</th>
                       <th rowspan="2">Date Added</th>
                       <th rowspan="2">Action</th>
                     </tr>
@@ -598,43 +599,69 @@ if (!empty($_SESSION['loginsuccess'])) {
 
                   </thead>
                   <tbody>
-                    <?php
-                    $color = "#345563";
-                    if (isset($_GET['body'])) {
-                      $color = $_GET['body'];
-                      echo $color;
-                    }
-                    ?>
+                  <?php
+                      $ho = 1;
+                      $h = queryDbs("SELECT* FROM appearances ");
+                      while ($appearance = data($h)) {
+                          $bgcolor = $appearance['bgcolor'];
+                          $text = $appearance['text'];
+                          $body = $appearance['body'];
+                          $navbar = $appearance['navbar'];
+                          $status = $appearance['status'];
+                          $date = $appearance['reg_date'];
+                          $id = $appearance['id'];
+
+                      ?>
                     <tr>
-                      <td rowspan="6">1</td>
+                      <td rowspan="5"><?php echo $ho ?></td>
                       <td colspan="3"></td>
-                      <td rowspan="6">12/21/2112</td>
-                      <td rowspan="6">
-                        <a href="" class=" btn btn-primary"><span class="p-3 fa fa-edit"></span></a>
-                        <a href="" class=" btn btn-danger"><span class="p-3 fa fa-trash"></span></a>
-                      </td>
+                      <td>
+                      <?php 
+                      if ($status == "enabled") {
+                            ?>
+
+                              <h4> <a href="#appearancestatus" class="text-success" data-toggle="modal" appearance="<?php echo $id ?>">Enabled<span class="text-success mr-2 fa fa-check"></span></a></h4>
+                            <?php
+                            } else {
+                            ?>
+                              <h4> <a href="#appearancestatus" class="text-danger" data-toggle="modal" appearance="<?php echo $id ?>">Disabled<span class="text-danger mr-2 fa fa-window-close"></span></a></h4>
+
+                            <?php } ?>
+                          </td>
+                          <td><?php echo $date; ?></td>
+                          <td>
+
+
+                            <a href="#appearanceedit" class=" btn btn-primary" data-toggle="modal" appearance="<?php echo $id ?>"><span class="p-2 m-1 fa fa-edit"></span></a>
+                            <a href="#appearancedelete" class=" btn btn-danger" data-toggle="modal" appearance="<?php echo $id?>"><span class="p-2 m-1 fa fa-trash"></span></a>
+                          </td>
                     </tr>
                     <tr>
                       <td>Body</td>
-                      <td><?php echo $color ?></td>
-                      <td><span class="badge badge-pill badge-dark p-2" style="color: <?php echo $color ?>;"><span style="font-size: 2em;" class="fa fa-circle"></span></span></td>
+                      <td><?php echo $bgcolor ?></td>
+                      <td><span class="badge badge-pill badge-dark p-2" style="color: <?php echo $body ?>;"><span style="font-size: 2em;" class="fa fa-circle"></span></span></td>
                     </tr>
                     <tr>
                       <td>Text</td>
-                      <td><?php echo $color ?></td>
-                      <td><span class="badge badge-pill badge-dark p-2" style="color: <?php echo $color ?>;"><span style="font-size: 2em;" class="fa fa-circle"></span></span></td>
+                      <td><?php echo $text ?></td>
+                      <td><span class="badge badge-pill badge-dark p-2" style="color: <?php echo $text ?>;"><span style="font-size: 2em;" class="fa fa-circle"></span></span></td>
                     </tr>
                     <tr>
                       <td>Navbar</td>
-                      <td><?php echo $color ?></td>
-                      <td><span class="badge badge-pill badge-dark p-2" style="color: <?php echo $color ?>;"><span style="font-size: 2em;" class="fa fa-circle"></span></span></td>
+                      <td><?php echo $navbar ?></td>
+                      <td><span class="badge badge-pill badge-dark p-2" style="color: <?php echo $navbar ?>;"><span style="font-size: 2em;" class="fa fa-circle"></span></span></td>
                     </tr>
                     <tr>
                       <td>Background Color</td>
-                      <td><?php echo $color ?></td>
-                      <td><span class="badge badge-pill badge-dark p-2" style="color: <?php echo $color ?>;"><span style="font-size: 2em;" class="fa fa-circle"></span></span></td>
+                      <td><?php echo $bgcolor ?></td>
+                      <td><span class="badge badge-pill badge-dark p-2" style="color: <?php echo $bgcolor ?>;"><span style="font-size: 2em;" class="fa fa-circle"></span></span></td>
                     </tr>
 
+                    
+                    <?php 
+                      $ho++;
+                      }
+                     ?>
 
 
 
@@ -653,7 +680,8 @@ if (!empty($_SESSION['loginsuccess'])) {
 
                       <!-- Modal body -->
                       <div class="modal-body">
-                        <form>
+                        <p class="text-danger apperanceformerror"></p>
+                        <form id="addapperanceform">
                           <div class="form-group">
                             <label for="usr">Body:</label>
                             <input type="color" class="form-control" name="body" id="usr">
@@ -736,6 +764,33 @@ if (!empty($_SESSION['loginsuccess'])) {
     <div id="aboutedit" class="modal">
       <div class="modal-dialog">
         <div class="aboutedit">
+
+        </div>
+      </div>
+    </div>
+
+    <!-- appearance -->
+    <div id="appearancestatus" class="modal">
+      <div class="modal-dialog">
+        <div class="appearancestatus">
+
+        </div>
+      </div>
+    </div>
+
+    <!-- home delete -->
+    <div id="appearancedelete" class="modal">
+      <div class="modal-dialog">
+        <div class="appearancedelete">
+
+        </div>
+      </div>
+    </div>
+
+    <!-- home edit -->
+    <div id="appearanceedit" class="modal">
+      <div class="modal-dialog">
+        <div class="appearanceedit">
 
         </div>
       </div>

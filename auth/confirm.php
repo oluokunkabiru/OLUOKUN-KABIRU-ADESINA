@@ -111,7 +111,28 @@ if(isset($_POST['homestatus'])){
         </div>
           </div>';
         }
-
+        if(isset($_POST['appearancestatus'])){
+          $id = $_POST['appearancestatus'];
+          $q = queryDbs("SELECT* FROM appearances WHERE id = '$id' ");
+          $data = data($q);
+          echo '<div class="modal-content">
+          <div class="modal-header">
+             <div class ="modal-body">
+                  <h5>Are you sure you want enable <b> '. $data['bgcolor'] .'</h5>
+             
+             </div>
+             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+            <div class="modal-footer">
+         
+             <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+             <input type="hidden" value="'.$id.'" name="enableappearancestatus">
+             <button class="btn btn-success btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">enable</button>
+             </form>
+          </div>
+            </div>';
+          }
+  
         if(isset($_POST['projectstatusdisabled'])){
           $id = $_POST['projectstatusdisabled'];
           $q = queryDbs("SELECT* FROM projects WHERE id = '$id' ");
@@ -238,6 +259,47 @@ if(isset($_POST['homestatus'])){
             }
 
 
+            // apperance
+            if(isset($_POST['appearanceedit'])){
+              $id = $_POST['appearanceedit'];
+              $q = queryDbs("SELECT* FROM appearances WHERE id = '$id' ");
+              $data = data($q);
+              echo '<div class="modal-content">
+          <div class="modal-header">
+          <div class ="modal-title">
+          <h3>Edit <b>'. ucwords($data['bgcolor']) .'</h3>
+     
+     </div>
+     </div>
+            <div class="modal-body">
+              <p class="text-danger updateapperanceformerror"></p>
+                        <form id="updateapperanceform">
+                          <div class="form-group">
+                            <label for="usr">Body:</label>
+                            <input type="color" class="form-control" value="'.$data['body'].'" name="body" id="usr">
+                          </div>
+                          <div class="form-group">
+                            <label for="usr">Text:</label>
+                            <input type="color" class="form-control"  value="'.$data['text'].'"  name="text" id="usr">
+                          </div>
+                          <div class="form-group">
+                            <label for="usr">Navigtion Bar:</label>
+                            <input type="color" class="form-control"  value="'.$data['navbar'].'"  name="navbar" id="usr">
+                          </div>
+                          <div class="form-group">
+                            <label for="usr">Background Color:</label>
+                            <input type="color" class="form-control" name="backgroundcolor"  value="'.$data['bgcolor'].'"  id="usr">
+                          </div>
+         <input type="hidden" name="updateapperanceform" value="updateapperanceform">
+         <input type="hidden" name="id" value="'.$data['id'].'">
+         <button class="btn btn-success btn-lg mr-5 mt-3 float-right">Update</button>
+   </form>                        
+   </div>
+          </div>
+            </div>';
+              }
+
+
             if(isset($_POST['contactedit'])){
               $id = $_POST['contactedit'];
               $q = queryDbs("SELECT* FROM contacts WHERE id = '$id' ");
@@ -301,6 +363,30 @@ if(isset($_POST['homestatus'])){
           </div>
             </div>';
           }
+
+
+          // apperarance
+          if(isset($_POST['appearancedelete'])){
+            $id = $_POST['appearancedelete'];
+            $q = queryDbs("SELECT* FROM appearances WHERE id = '$id' ");
+            $data = data($q);
+            echo '<div class="modal-content">
+            <div class="modal-header">
+               <div class ="modal-body">
+                    <h5>Are you sure you want delete <b>'. $data['bgcolor'] .'</b></h5>
+               
+               </div>
+               <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+              <div class="modal-footer">
+           
+               <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+               <input type="hidden" value="'.$id.'" name="appearancedeleteconfirm">
+               <button class="btn btn-danger btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">delete</button>
+               </form>
+            </div>
+              </div>';
+            }
           if(isset($_POST['contactdelete'])){
             $id = $_POST['contactdelete'];
             $q = queryDbs("SELECT* FROM contacts WHERE id = '$id' ");

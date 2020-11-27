@@ -591,6 +591,104 @@ $('.contactdelete').html(data);
 })
 })
 
+
+// apperarance
+
+$('#addapperanceform').submit(function(e){
+  // alert(xmlh.status);
+e.preventDefault();
+var datas = new FormData(this);
+
+$.ajax({
+  type:'POST',
+url:'appearance.php',
+  data: datas,
+  contentType:false,
+  cache:false,
+  processData:false,
+  // dataType:"JSON",
+  success: function (response) {
+    
+    if (response) {
+      $('.apperanceformerror').html(response);
+    } 
+    if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+      window.location.assign('dashboard.php'); 
+       }
+  },
+
+});
+
+})
+
+  //   update home form
+  $('#updateapperanceform').submit(function(e){
+      // alert(xmlh.status);
+    e.preventDefault();
+    var datas = new FormData(this);
+  
+    $.ajax({
+      type:'POST',
+    url:'confirmed.php',
+      data: datas,
+      contentType:false,
+      cache:false,
+      processData:false,
+      // dataType:"JSON",
+      success: function (response) {
+        
+        if (response) {
+          $('.updateapperanceformerror').html(response);
+        } 
+        if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+          window.location.assign('dashboard.php'); 
+           }
+      },
+  
+    });
+  
+  })
+
+// delete
+$('#appearancedelete').on('show.bs.modal', function(e){
+  var id = $(e.relatedTarget).attr('appearance');
+  // alert(id);
+$.ajax({
+type:'post',
+url:'confirm.php',
+data:'appearancedelete='+id,
+success:function(data){
+$('.appearancedelete').html(data);
+}
+})
+})
+
+$('#appearancestatus').on('show.bs.modal', function(e){
+  var id = $(e.relatedTarget).attr('appearance');
+  // alert(id);
+$.ajax({
+type:'post',
+url:'confirm.php',
+data:'appearancestatus='+id,
+success:function(data){
+$('.appearancestatus').html(data);
+}
+})
+})
+
+$('#appearanceedit').on('show.bs.modal', function(e){
+  var id = $(e.relatedTarget).attr('appearance');
+  // alert(id);
+$.ajax({
+type:'post',
+url:'confirm.php',
+data:'appearanceedit='+id,
+success:function(data){
+$('.appearanceedit').html(data);
+}
+})
+})
+
 // homw edit
 
 // delete

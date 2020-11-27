@@ -33,6 +33,57 @@ include ('db.php');
 
 }
 
+// apperacnec
+if(isset($_POST['enableappearancestatus'])){
+    $id = $_POST['enableappearancestatus'];
+$currentstatus = "enabled";
+$status = "disabled";
+
+$q = queryDbs("UPDATE appearances SET status = '$status' ");
+if($q){
+    $cu = queryDbs("UPDATE appearances SET status='$currentstatus' WHERE id='$id' ");
+    if($cu){
+        rediret("dashboard.php");
+    }
+}else{
+    echo " Fail to Update ". querryError();
+}
+
+}
+if(isset($_POST['updateapperanceform'])){
+    $errors =[];
+if(empty($_POST['body'])){
+    $errors[]="Please choose body color";
+}
+
+
+if(empty($_POST['text'])){
+    $errors[]="Please choose text color";
+}
+if(empty($_POST['navbar'])){
+    $errors[]="Please choose navigation bar color";
+}
+if(empty($_POST['backgroundcolor'])){
+    $errors[]="Please choose body color";
+}
+
+foreach($errors as $error){
+    echo $error."<br>";
+}
+
+if(count($errors)==0){
+    $body = test_input($_POST['body']);
+    $text = test_input($_POST['text']);
+    $navbar = test_input($_POST['navbar']);
+    $bgcolor = test_input($_POST['backgroundcolor']);
+    $appearance = queryDbs("UPDATE  appearances SET body='$body', text='$text', navbar='$navbar', bgcolor='$bgcolor'");
+    if($appearance){
+        echo "<h3 class='text-success'>Insert successfully</h2>";
+    }else{
+        echo "Fail to insert <br>". querryError();
+    }
+}
+}
 // service enable
 if(isset($_POST['enableservicestatus'])){
     $id = $_POST['enableservicestatus'];
@@ -134,6 +185,14 @@ if(isset($_POST['enablehomedelete'])){
     if(isset($_POST['servicedeleteconfirm'])){
         $id = $_POST['servicedeleteconfirm'];
         $q = queryDbs("DELETE FROM home WHERE id = '$id' ");
+        if($q){
+            rediret("dashboard.php");
+        }
+    }
+
+    if(isset($_POST['appearancedeleteconfirm'])){
+        $id = $_POST['appearancedeleteconfirm'];
+        $q = queryDbs("DELETE FROM appearances WHERE id = '$id' ");
         if($q){
             rediret("dashboard.php");
         }
