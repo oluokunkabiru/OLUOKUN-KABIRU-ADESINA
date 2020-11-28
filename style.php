@@ -1,6 +1,18 @@
 <?php
 header("Content-type: text/css; charset: UTF-8"); 
-$navcolor = "#cacccc";
+include('auth/db.php');
+$b  = queryDbs("SELECT* FROM appearances WHERE status='enabled' ");
+$data = data($b);
+$body = $data['body'];
+$navbar = $data['navbar'];
+$bgcolor = $data['bgcolor'];
+$text = $data['text'];
+function reversecolor($data){
+  $re = str_replace("#", "", $data);
+  $rev = strrev($re);
+  $newcolor = "#".$rev;
+  return $newcolor;
+}
 
  ?>
 
@@ -13,16 +25,19 @@ $navcolor = "#cacccc";
     margin: 10px;
     color: white;
     
+    
 }
 .navbar{
-  background-color:  <?php echo $navcolor ?> ;
+  background-color:  <?php echo $navbar ?> ;
+
+  
 }
 .nav-item .active{
     border-bottom: rgb(11, 151, 86) 2px dotted;
 }
 a.nav-link:hover{
     
-    /* border-bottom: 5px rgb(0, 162, 255) solid; */
+    border-bottom: 5px  <?php echo reversecolor($navbar) ?> solid;
 }
 .top{
     margin-top: 30px;
@@ -34,7 +49,7 @@ a.nav-link:hover{
   
   #sidebar {
     border-radius:200px;
-    border: green 5px dotted;
+    border: <?php echo $navbar ?> 5px dotted;
     min-width: 90px;
     max-width: 180px;
     height: min-content;
@@ -67,16 +82,17 @@ a.nav-link:hover{
         -o-transition: all 0.3s;
         transition: all 0.3s; }
         #sidebar ul li a:hover {
-          color: #fff;
+          color: <?php echo reversecolor($navbar) ?>;
           background: #000000;
-          border-bottom: 1px solid #2f89fc; }
+          border-bottom: 1px solid  <?php echo $navbar ?>;
+           }
 
       #sidebar ul li.active > a {
         background: transparent;
         color: #fff; }
         #sidebar ul li.active > a:hover {
-          background: #2f89fc;
-          border-bottom: 1px solid #2f89fc; }
+          background:  <?php echo $navbar ?>;
+          border-bottom: 1px solid  <?php echo reversecolor($navbar) ?>; }
     @media (max-width: 991.98px) {
       #sidebar {
         margin-left: -120px;
@@ -102,7 +118,7 @@ a.nav-link:hover{
           -o-transition: none;
           transition: none; } }
       #sidebar .custom-menu .btn.btn-primary {
-        background: #2ffcbe;
+        background:  <?php echo $navbar ?>;
         border-color: transparent;
         position: relative;
         color: #000;
@@ -137,19 +153,19 @@ a.nav-link:hover{
         transition: all 0.3s; }
       
       .btn.btn-primary {
-        background: #2f89fc;
-        border-color: #2f89fc; }
+        background:  <?php echo $navbar ?>;
+        border-color:  <?php echo $navbar ?>; }
         .btn.btn-primary:hover, .btn.btn-primary:focus {
-          background: #2f89fc !important;
-          border-color: #2f89fc !important; 
+          background:  <?php echo reversecolor($navbar) ?> !important;
+          border-color:  <?php echo $navbar ?> !important; 
         }
         
   .userimage{
-    background-image: linear-gradient(rgba(85, 233, 238, 0.4), rgba(30, 60, 90, 0.267)), url(image/20.jpg);
+    background-image: linear-gradient( <?php echo $navbar."66" ?>,  <?php echo $navbar."66" ?>), url(image/20.jpg);
     background-size: 100%;
   }
   .introduction{
-    background-image: linear-gradient(rgba(70, 74, 78, 0.4), rgba(70, 70, 73, 0.66));
+    background-image: linear-gradient( <?php echo reversecolor($navbar)."66" ?>,  <?php echo $navbar."66" ?>);
     background-size: 100%;
     border-radius: 100px;
   }
@@ -174,7 +190,7 @@ a.nav-link:hover{
     .nav-item a.nav-link{
       font-size: 20px;
       margin: 10px;
-      color: black;
+      color: <?php echo reversecolor($navbar) ?>;
       
   }
   }

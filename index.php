@@ -1,3 +1,19 @@
+<?php
+include('auth/db.php');
+$b  = queryDbs("SELECT* FROM appearances WHERE status='enabled' ");
+$data = data($b);
+$body = $data['body'];
+$navbar = $data['navbar'];
+$bgcolor = $data['bgcolor'];
+$text = $data['text'];
+function reversecolor($data){
+  $re = str_replace("#", "", $data);
+  $rev = strrev($re);
+  $newcolor = "#".$rev;
+  return $newcolor;
+}
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -112,7 +128,7 @@
                 <h3 class="text-center text-light font-weight-bold mt-sm-5" >Hello</h3>
                 <h1 class="text-center text-light font-weight-bold p-2">I'M OLUOKUN KABIRU ADESINA</h1>
                 <h4 class="text-light text-center p-3 ">I'm a Creative Software Developer</h4>
-                <h5 class="text-light text-center rounded bg-info text-monospace font-weight-bold p-2">I Create a website Application</h5>
+                <h4 class="text-center rounded text-monospace font-weight-bold p-2" style="background-color:<?php echo $navbar ?> ; color:<?php echo reversecolor($navbar) ?>">I Create a website Application</h5>
                </div>
               </div>
             </div>
@@ -127,7 +143,7 @@
             <div class="row">
               <div class="col-md-4"></div>
               <div class="col-md-4">
-                  <h3 id="about" class="text-center bg-info text-center rounded-circle p-5 text-light font-weight-bold">About</h3>
+                  <h3 id="about" style="background-color:<?php echo $navbar ?>" class="text-center text-center rounded-circle p-5 text-light font-weight-bold">About</h3>
               </div>
               <div class="col-md-4"></div>
             </div>
@@ -159,7 +175,7 @@
           <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4">
-                <h3 id="skill" class="text-center bg-info text-center rounded-circle p-5 text-light font-weight-bold">Skills</h3>
+                <h3 id="skill" style="background-color: <?php echo $navbar ?>;" class="text-center text-center rounded-circle p-5 text-light font-weight-bold">Skills</h3>
             </div>
             <div class="col-md-4"></div>
           </div>
@@ -196,7 +212,7 @@
         <div class="row">
           <div class="col-md-4"></div>
           <div class="col-md-4">
-              <h3 class="text-center bg-info text-center rounded-circle p-5 text-light font-weight-bold">Recent Project</h3>
+              <h3 style="background-color: <?php echo $navbar ?>;" class="text-center text-center rounded-circle p-5 text-light font-weight-bold">Recent Project</h3>
           </div>
           <div class="col-md-4"></div>
         </div>
@@ -252,7 +268,7 @@
 
       <!-- contact -->
       <section>
-        <div class="container-fluid bg-info">
+        <div class="container-fluid" style="background-color:<?php echo $navbar ?>">
           <footer class="p-5" id="contact">
               <div class="row">
                   <div class="col-lg col-md-6 ml-5">
