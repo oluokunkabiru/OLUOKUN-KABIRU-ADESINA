@@ -24,7 +24,9 @@ function reversecolor($data){
     $new = "#".$r3.$g3.$b3;
   return $new;
 }
-
+$abt = queryDbs("SELECT* FROM about WHERE status='enabled'");
+$about = data($abt);
+$aboutbackgroundimage = $about['background_picture'];
  ?>
 
 .navbar-brand img{
@@ -177,7 +179,7 @@ a.nav-link:hover{
         }
         
   .userimage{
-    background-image: linear-gradient( <?php echo $navbar."66" ?>,  <?php echo $navbar."66" ?>), url(image/20.jpg);
+    background-image: linear-gradient( <?php echo $navbar."66" ?>,  <?php echo $navbar."66" ?>), url(<?php echo "auth/".$aboutbackgroundimage ?>);
     background-size: 100%;
   }
   .introduction{

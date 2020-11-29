@@ -168,24 +168,24 @@ function reversecolor($data){
             <div class="row">
               <div class="col-md-4"></div>
               <div class="col-md-4">
-                  <h3 id="about" style="background-color:<?php echo $navbar ?>" class="text-center text-center rounded-circle p-5 text-light font-weight-bold">About</h3>
+                  <h3 id="about" style="background-color:<?php echo $navbar ?>; color:<?php echo reversecolor($navbar) ?>" class="text-center text-center rounded-circle p-5 font-weight-bold" >About</h3>
               </div>
               <div class="col-md-4"></div>
             </div>
+            <?php
+            $abt = queryDbs("SELECT* FROM about WHERE status='enabled'");
+            $about = data($abt);
+            $profileimage = $about['profile_picture'];
+            ?>
             <div class="card-deck">
               <div class="card">
                 <div class="card-body text-center userimage">     
-                   <img src="image/9.jpg" style="width: 90%;" class="card-img img-fluid rounded-circle" alt=" OLUOKUN KABIRU ADESINA">
+                   <img src="auth/<?php echo $profileimage ?>" style="width: 70%;" class="card-img img-fluid rounded-circle" alt=" OLUOKUN KABIRU ADESINA">
                 </div>
               </div>
               <div class="card">
                 <div class="card-body">
-                  <p>I'm Oluokun Kabiru </p>
-                  <p>I'm a web Developer, my main focus is on both front-end web development and back-end web development </p>
-                  <p>I enjoy learning a new <b>technology</b> everyday in other to solve worlds problem</p>
-                  <p>If I'm not with system it means I'm reading history about available problem to solve</p>
-                  <p>I love my passion to be a Programmer</p>
-                  <p class="text-right"><b><i>Happy Coding Hour</i></b></p>
+                <?php echo htmlspecialchars_decode($about['description']) ?>
                 </div>
               </div>
               
@@ -200,33 +200,83 @@ function reversecolor($data){
           <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4">
-                <h3 id="skill" style="background-color: <?php echo $navbar ?>;" class="text-center text-center rounded-circle p-5 text-light font-weight-bold">Skills</h3>
+                <h3 id="skill" style="background-color: <?php echo $navbar ?>; color:<?php echo reversecolor($navbar) ?>;" class="text-center text-center rounded-circle p-5 font-weight-bold">Skills</h3>
             </div>
             <div class="col-md-4"></div>
           </div>
             <div class="card-deck">
+              <?php
+                $fro = queryDbs("SELECT * FROM services WHERE category='frontend'");
+                $fron = data($fro);
+                $frontend = $fron['category'];
+                $bac = queryDbs("SELECT * FROM services WHERE category='backend'");
+                $back = data($bac);
+                $backend = $back['category'];
+                $fra = queryDbs("SELECT * FROM services WHERE category='framework'");
+                $frame = data($fra);
+                $framework = $frame['category'];
+              ?>
+              <?php
+                if($frontend){
+              ?>
               <div class="card p-1 ">
-                <div class="card-title bg-info text-light text-center p-2"><h3>Front-End</h3></div>
+                <div class="card-title text-center p-2" style="background-color: <?php echo reversecolor($navbar) ?>; color:<?php echo $navbar  ?>;"><h3>Front-End</h3></div>
                 <div class="card-body text-center"> 
                   <ul class="list-group">
-                    <li class="list-group-item">HTML</li>
-                    <li class="list-group-item">CSS </li>
-                    <li class="list-group-item">Bootstrap</li>
-                    <li class="list-group-item">Javascript</li>
+                    <?php 
+                    $sk = queryDbs("SELECT* FROM services WHERE category='frontend'");
+                    while($front = data($sk)){
+
+                    
+                    ?>
+                    <li class="list-group-item text-uppercase"><?php echo $front['technology'] ?></li>
+                    <?php } ?>
                   </ul> 
                 </div>
               </div>
-              <div class="card p-1">
-                <div class="card-title bg-info text-light text-center p-2"><h3>Back-End</h3></div>
+                <?php } ?>
+
+                <?php
+                if($backend){
+              ?>
+              <div class="card p-1 ">
+                <div class="card-title text-center p-2" style="background-color: <?php echo reversecolor($navbar) ?>; color:<?php echo $navbar  ?>;"><h3>Back-End</h3></div>
                 <div class="card-body text-center"> 
                   <ul class="list-group">
-                    <li class="list-group-item">PHP</li>
-                    <li class="list-group-item">Java </li>
-                    <li class="list-group-item">SQL</li>
-                    <li class="list-group-item">C++</li>
+                    <?php 
+                    $sk = queryDbs("SELECT* FROM services WHERE category='backend'");
+                    while($front = data($sk)){
+
+                    
+                    ?>
+                    <li class="list-group-item text-uppercase"><?php echo $front['technology'] ?></li>
+                    <?php } ?>
                   </ul> 
                 </div>
               </div>
+                <?php } ?>
+
+                <?php
+                if($framework){
+              ?>
+              <div class="card p-1 ">
+                <div class="card-title text-center p-2" style="background-color: <?php echo reversecolor($navbar) ?>; color:<?php echo $navbar  ?>;"><h3>FrameWork</h3></div>
+                <div class="card-body text-center"> 
+                  <ul class="list-group">
+                    <?php 
+                    $sk = queryDbs("SELECT* FROM services WHERE category='framework'");
+                    while($front = data($sk)){
+
+                    
+                    ?>
+                    <li class="list-group-item text-uppercase"><?php echo $front['technology'] ?></li>
+                    <?php } ?>
+                  </ul> 
+                </div>
+              </div>
+                <?php } ?>
+
+              
               </div>
           </div>
         </div>
