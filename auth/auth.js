@@ -23,7 +23,10 @@
     toolbar: [
       // ['vb', ['goodvb']],
         ['style', ['style']],
-        ['font', ['bold', 'italic', 'underline', 'clear', 'superscript', 'subscript']],
+      ['font', ['bold', 'italic', 'underline', 'clear', 'superscript', 'subscript']],
+      ['fontsize', ['fontsize']],
+      ['height', ['height']],
+        ['fontname', ['fontname']],
         ['color', ['color']],
         ['para', ['ul', 'ol', 'paragraph']],
         ['table', ['table']],
@@ -94,7 +97,7 @@
       if (response) {
         $('.homedformerror').html(response);
       } 
-      if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+      if (response =="<h3 class='text-success'>Insert successfully</h3>") {
         window.location.assign('dashboard.php'); 
          }
     },
@@ -687,6 +690,9 @@ success:function(data){
 $('.appearanceedit').html(data);
 }
 })
+
+
+  
 })
 
 // homw edit
@@ -704,8 +710,95 @@ $('.contactedit').html(data);
 })
 })
 
+
+    // writer
+$('#addwriterform').submit(function(e){
+  // alert(xmlh.status);
+e.preventDefault();
+var datas = new FormData(this);
+
+$.ajax({
+  type:'POST',
+url:'writer.php',
+  data: datas,
+  contentType:false,
+  cache:false,
+  processData:false,
+  // dataType:"JSON",
+  success: function (response) {
     
+    if (response) {
+      $('.addwritererror').html(response);
+    } 
+    if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+      window.location.assign('dashboard.php'); 
+       }
+  },
+
+});
+
+})
+
+        // writer
+$
+// delete
+$('#writerdelete').on('show.bs.modal', function(e){
+var id = $(e.relatedTarget).attr('writer');
+// alert(id);
+$.ajax({
+type:'post',
+url:'confirm.php',
+data:'writerdelete='+id,
+success:function(data){
+$('.writerdelete').html(data);
+}
+})
+}) 
+ 
+       // writer
+$('#addiconform').submit(function(e){
+  // alert(xmlh.status);
+e.preventDefault();
+var datas = new FormData(this);
+
+$.ajax({
+  type:'POST',
+url:'icon.php',
+  data: datas,
+  contentType:false,
+  cache:false,
+  processData:false,
+  // dataType:"JSON",
+  success: function (response) {
     
+    if (response) {
+      $('.addiconerror').html(response);
+    } 
+    if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+      window.location.assign('dashboard.php'); 
+       }
+  },
+
+});
+
+})
+
+        // writer
+$
+// delete
+$('#icondelete').on('show.bs.modal', function(e){
+var id = $(e.relatedTarget).attr('icon');
+// alert(id);
+$.ajax({
+type:'post',
+url:'confirm.php',
+data:'icondelete='+id,
+success:function(data){
+$('.icondelete').html(data);
+}
+})
+}) 
+ 
 })
 
 

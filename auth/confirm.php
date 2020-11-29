@@ -522,6 +522,53 @@ if(isset($_POST['homestatus'])){
           </div>
             </div>';
           }
+
+          if(isset($_POST['writerdelete'])){
+            $id = $_POST['writerdelete'];
+            $q = queryDbs("SELECT* FROM writer WHERE id = '$id' ");
+            $data = data($q);
+            echo '<div class="modal-content">
+            <div class="modal-header">
+               <div class ="modal-body">
+                    <h5>Are you sure you want delete <b>'. $data['content'] .'</b></h5>
+               
+               </div>
+               <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+              <div class="modal-footer">
+           
+               <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+               <input type="hidden" value="'.$id.'" name="writerdeletefirm">
+               <button class="btn btn-danger btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">delete</button>
+               </form>
+            </div>
+              </div>';
+            }
+
+            if(isset($_POST['icondelete'])){
+              $id = $_POST['icondelete'];
+              $q = queryDbs("SELECT* FROM icons WHERE id = '$id' ");
+              $data = data($q);
+              echo '<div class="modal-content">
+              <div class="modal-header">
+                 <div class ="modal-body">
+                      <h5>Are you sure you want delete <b>'. $data['name'] .'</b></h5>
+                 
+                 </div>
+                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                  </div>
+                <div class="modal-footer">
+             
+                 <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+                 <input type="hidden" value="'.$id.'" name="icondeletefirm">
+                 <button class="btn btn-danger btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">delete</button>
+                 </form>
+              </div>
+                </div>';
+              }
+    
 ?>
+
+
 
 <script src="auth.js"></script>

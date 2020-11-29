@@ -23,7 +23,7 @@ if($_FILES['profilepicture']['size']!=0){
         $uploadOk = 0;
     } 
 
-$target_file = $target_dir . basename($_FILES["profilepicture"]["name"]);
+$target_file = $target_dir .time().basename($_FILES["profilepicture"]["name"]);
 
 // Check if file already exists
 if (file_exists($target_file)) {
@@ -56,9 +56,11 @@ if(count($errors)==0){
     $greet = test_input($_POST['greet']);
     $description = test_input($_POST['description']);
     $status ="disabled";
+    // echo htmlspecialchars($description);
+    // print_r ($description);
     $home = queryDbs("INSERT INTO home(greet, description, profile_picture, status) VALUES('$greet', '$description', '$picture', '$status')");
     if($home){
-        echo "<h3 class='text-success'>Insert successfully</h2>";
+        echo "<h3 class='text-success'>Insert successfully</h3>";
     }else{
         echo "Fail to insert <br>". querryError();
     }

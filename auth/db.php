@@ -8,6 +8,7 @@ $conn = mysqli_connect($server, $user, $password, $databasename);
  function test_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
+    $data = str_replace("'", "&apos;", $data);
     $data = htmlspecialchars($data);
     return $data;
   }

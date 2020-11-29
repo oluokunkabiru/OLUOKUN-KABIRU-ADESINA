@@ -8,9 +8,20 @@ $bgcolor = $data['bgcolor'];
 $text = $data['text'];
 function reversecolor($data){
   $re = str_replace("#", "", $data);
-  $rev = strrev($re);
-  $newcolor = "#".$rev;
-  return $newcolor;
+    $r = substr($re, 0,2);
+    $g = substr($re, 2,2);
+    $b = substr($re, 4,2);
+    $r1 = base_convert($r,16,10);
+    $g1 = base_convert($g,16,10);
+    $b1 = base_convert($b,16,10);
+    $r2 = 255-$r1;
+    $g2 = 255-$g1;
+    $b2 = 255-$b1;
+    $r3 = str_pad(base_convert($r2,10,16), 2,"0");
+    $g3 = str_pad(base_convert($g2,10,16), 2,"0");
+    $b3 = str_pad(base_convert($b2,10,16), 2,"0");
+    $new = "#".$r3.$g3.$b3;
+  return $new;
 }
 
  ?>
@@ -41,7 +52,7 @@ function reversecolor($data){
 
   <!-- Toggler/collapsibe Button -->
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-    <span class="navbar-toggler-ico">Menu</span>
+    <span class="navbar-toggler-ico" style="color:<?php echo $text ?>;">Menu</span>
   </button>
 
   <!-- Navbar links -->
@@ -76,28 +87,24 @@ function reversecolor($data){
         <div class="fix">
        <nav id="sidebar"style="" class="">
          <div class="custom-menu">
-           <button type="button" id="sidebarCollapse" class="btn btn-primary" value="Menu">
+           <button type="button" id="sidebarCollapse" class="btn btn-prima" value="Menu">
               <span class="navbar-toggler-icon" ></span>
            </button>
            
         </div>
          <ul class="list-unstyled components mb-5">
            <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> -->
+           <?php
+           $c = queryDbs("SELECT* FROM contacts");
+           while($contact = data($c)){
+            $link = $contact['link'];
+            $icon = $contact['icon'];
+           ?>
             <li class="nav-item">
-                     <a class="nav-link" href="https://www.facebook.com/oluokunkabir.adeshina/"  target="_blank"><span class="text-info"><i style="font-size: 30px" class="fab fa-facebook-square m-2"></i></span></a>
+                     <a class="nav-link" href="<?php echo $link ?>"  target="_blank"><span><i style="font-size: 30px" class="<?php echo $icon; ?> m-2"></i></span></a>
                    </li>
-                   <li class="nav-item">
-                     <a class="nav-link" href="https://twitter.com/DevKabirOluokun" target="_blank"><span class="text-info"><i style="font-size: 30px" class="fab fa-twitter-square m-2"></i></span></a>
-                   </li>
-                   <li class="nav-item">
-                     <a class="nav-link" href="https://github.com/oluokunkabiru" target="_blank"><span class="text-info"><i style="font-size: 30px" class="fab fa-github m-2"></i></span></a>
-                   </li>
-                   <li class="nav-item">
-                     <a class="nav-link" href="https://wa.me/+2348130584550"  target="_blank"><span class="text-info"><i style="font-size: 30px" class="fab fa-whatsapp-square m-2"></i></span></a>
-                   </li>
-                   <li class="nav-item">
-                     <a class="nav-link" href="https://www.linkedin.com/in/oluokun-kabir-adesina-58125b163/" target="_blank"><span class="text-info"><i style="font-size: 30px" class="fab fa-linkedin m-2"></i></span></a>
-                   </li>
+           <?php } ?>
+                  
        </nav>    
      </div>
          
@@ -113,22 +120,40 @@ function reversecolor($data){
         <div class="container-fluid" >
           <div id="slide">
             <div class="container mt-md-5 mt-sm-1">
-              
+              <?php 
+              $pr = queryDbs("SELECT* FROM home WHERE status='enabled'");
+              $profile = data($pr);
+              ?>
               <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-4 col-sm-6">
 
                   <div class="mt-sm-1">
-                    <img src="image/14.jpg" class="m-md-5 m-sm-1 card-img rounded-circle" alt="OLUOKUN KABIRU">
+                    <img src="auth/<?php echo $profile['profile_picture'] ?>" class="m-md-5 m-sm-1 card-img rounded-circle" alt="OLUOKUN KABIRU">
                   </div>
                 </div>
                 <div class="col-md-1"></div>
                <div class="col-md-5 introduction">
                 <!-- <h4 class="text-cente text-light font-weight-bold mt-sm-5 bg-info p-1 rounded" id="greet" ></h4> -->
-                <h3 class="text-center text-light font-weight-bold mt-sm-5" >Hello</h3>
-                <h1 class="text-center text-light font-weight-bold p-2">I'M OLUOKUN KABIRU ADESINA</h1>
-                <h4 class="text-light text-center p-3 ">I'm a Creative Software Developer</h4>
-                <h4 class="text-center rounded text-monospace font-weight-bold p-2" style="background-color:<?php echo $navbar ?> ; color:<?php echo reversecolor($navbar) ?>">I Create a website Application</h5>
+                <h3 class="text-center text-light font-weight-bold mt-sm-5" ><?php echo $profile['greet'] ?></h3>
+                <h1 class="text-center text-light font-weight-bold p-2"><?php echo html_entity_decode($profile['description']) ?></h1>
+                <!-- <h4 class="text-light text-center p-3 ">I'm a Creative Software Developer</h4> -->
+                <hgroup class="wow fadeInUp">
+                  <?php
+                  $str = "[";
+                    $wr = queryDbs("SELECT* FROM writer ORDER BY id DESC");
+                  while($k = data($wr)){
+                    $str.="&quot;".$k['content']."&quot;".",";
+                  }
+                  
+                  $gen =rtrim($str," , ");
+                  $fin = $gen."]";
+                  $test = $fin;
+                 
+                  ?>
+                 
+                <h2 class="text-center rounded text-monospace font-weight-bold p-2" style="background-color:<?php echo $navbar ?> ; color:<?php echo reversecolor($navbar) ?>"><span class="typewrite text-capitalize" data-period="2000"
+                        data-type= '<?php echo $test ?>'></span></h2>
                </div>
               </div>
             </div>
@@ -273,16 +298,21 @@ function reversecolor($data){
               <div class="row">
                   <div class="col-lg col-md-6 ml-5">
                       <h3 class="footer-title  text-white">Contact Us</h3>
+                      <div class="alert alert-success alert-dismissible" style="display:none">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Opps !</strong> Please check below
+                        <p class="text-danger contactmeerror"></p>
+                      </div>
                       <div class="">
-                          <form action="#" method="post">
+                          <form id="contactme" method="post">
                                       <div class="form-group">
-                                          <input class="form-control" type="text" name="Name" placeholder="Name" required="">
+                                          <input class="form-control" type="text" name="name" placeholder="Name">
                                       </div>
                                       <div class="form-group">
-                                          <input class="form-control" type="email" name="Email" placeholder="Email" required="">
+                                          <input class="form-control" type="email" name="email" placeholder="Email">
                                       </div>
                                       <div class="form-group">
-                                          <textarea id="textarea" class="form-control" placeholder="Message" required=""></textarea>
+                                          <textarea id="textarea" class="form-control" placeholder="message" name="message"></textarea>
                                       </div>
                                       <div class="mx-auto mt-3">
                                           <button class="form-control btn btn-light btn-block btn-lg p-2" type="submit">Submit</button>
@@ -307,12 +337,18 @@ function reversecolor($data){
                               <p class="text-light">Osogbo, Osun State Nigeria</p>
                           </div>
                           <table class="ml-5 mr-3">
+                         
                             <tr>
-                                <td><a href="https://www.facebook.com/oluokunkabir.adeshina/"  target="_blank"><span class="text-light"><i class="fab fa-facebook-square m-2" style="font-size: 30px"></i></span></a></td>
-                                <td><a href="https://wa.me/+2348130584550"><span class="text-light"><i class="fab fa-whatsapp-square m-2" style="font-size: 30px"></i></span></a></td>
-                                <td><a  href="https://twitter.com/DevKabirOluokun" target="_blank"><span class="text-light"><i class="fab fa-twitter-square m-2" style="font-size: 30px"></i></span></a></td>
-                                <td><a  href="https://github.com/oluokunkabiru" target="_blank" ><span class="text-light"><i class="fab fa-github m-2" style="font-size: 30px"></i></span></a></td>
-                            </tr>
+                             <?php
+                            $c = queryDbs("SELECT* FROM contacts");
+                            while($contact = data($c)){
+                              $link = $contact['link'];
+                              $icon = $contact['icon'];
+                            ?>
+                              <td><a href="<?php echo $link ?>"  target="_blank"><span style="color:<?php echo $text ?>"><i class="<?php echo $icon ?> m-2" style="font-size: 30px"></i></span></a></td>
+
+                              <?php } ?>
+                               </tr>
                         </table>
                       </div>
                   </div>
@@ -340,7 +376,38 @@ function reversecolor($data){
 <script src="app.js"></script>
 
 <script>
-  $(document).ready(setInterval(slider, 2000));
+  $(document).ready(function(){
+    
+    $('#contactme').submit(function(e){
+        // alert(xmlh.status);
+      e.preventDefault();
+      var datas = new FormData(this);
+    
+      $.ajax({
+        type:'POST',
+      url:'contactme.php',
+        data: datas,
+        contentType:false,
+        cache:false,
+        processData:false,
+        // dataType:"JSON",
+        success: function (response) {
+          
+          if (response) {
+            $('.contactmeerror').html(response);
+            $('.alert').show();
+          } 
+          if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+            window.location.assign('dashboard.php'); 
+             }
+        },
+    
+      });
+    
+    })
+
+  });
+   $(document).ready(setInterval(slider, 2000));
   function slider(){
     var imag = ["image/3.jpg","image/4.jpg", "image/5.jpg", "image//6.jpg",
     "image/7.jpg","image/8.jpg", "image/9.jpg",
@@ -375,3 +442,10 @@ function reversecolor($data){
  greet.innerHTML = say;
   }
 </script>
+<!-- 
+
+<td><a href="https://www.facebook.com/oluokunkabir.adeshina/"  target="_blank"><span class="text-light"><i class="fab fa-facebook-square m-2" style="font-size: 30px"></i></span></a></td>
+                                <td><a href="https://wa.me/+2348130584550"><span class="text-light"><i class="fab fa-whatsapp-square m-2" style="font-size: 30px"></i></span></a></td>
+                                <td><a  href="https://twitter.com/DevKabirOluokun" target="_blank"><span class="text-light"><i class="fab fa-twitter-square m-2" style="font-size: 30px"></i></span></a></td>
+                                <td><a  href="https://github.com/oluokunkabiru" target="_blank" ><spa
+ -->

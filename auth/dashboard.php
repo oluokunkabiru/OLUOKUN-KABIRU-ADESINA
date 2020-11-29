@@ -4,6 +4,27 @@ if (!empty($_SESSION['loginsuccess'])) {
   $user  = $_SESSION['loginsuccess'];
   include('db.php');
 
+  $colo ="#fff000";
+  $newcolor="";
+  function revcolor($data){
+    $re = str_replace("#", "", $data);
+    $r = substr($re, 0,2);
+    $g = substr($re, 2,2);
+    $b = substr($re, 4,2);
+    $r1 = base_convert($r,16,10);
+    $g1 = base_convert($g,16,10);
+    $b1 = base_convert($b,16,10);
+    $r2 = 255-$r1;
+    $g2 = 255-$g1;
+    $b2 = 255-$b1;
+    $r3 = str_pad(base_convert($r2,10,16), 2,"0");
+    $g3 = str_pad(base_convert($g2,10,16), 2,"0");
+    $b3 = str_pad(base_convert($b2,10,16), 2,"0");
+
+    $orinal ="rgb($r1, $g1, $b1)";
+    $new = "#".$r3.$g3.$b3;
+  }
+  $color = revcolor($colo);
 ?>
   <!DOCTYPE html>
   <html lang="en">
@@ -25,11 +46,11 @@ if (!empty($_SESSION['loginsuccess'])) {
   <body>
     <div class="container-fluid">
       <div class="jumbotron">
-        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <nav class="navbar navbar-expand-md">
           <!-- Brand -->
           <!-- Toggler/collapsibe Button -->
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon text-light">Menu</span>
           </button>
 
           <!-- Navbar links -->
@@ -53,12 +74,21 @@ if (!empty($_SESSION['loginsuccess'])) {
               <li class="nav-item">
                 <a class="nav-link" data-toggle="pill" href="#appearance">Appearance</a>
               </li>
+              <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Others</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" data-toggle="pill" href="#writer">Writer</a>
+                <a class="dropdown-item" data-toggle="pill" href="#icon">Icons</a>
+                <a class="dropdown-item" data-toggle="pill" href="#">Link 3</a>
+              </div>
+            </li>
               <li class="nav-item">
                 <a class="nav-link ml-5" href="../">Home</a>
               </li>
             </ul>
           </div>
         </nav>
+        <h1><?php echo $color ?></h1>
         <!-- Tab panes -->
         <div class="tab-content">
           <div id="home" class="container tab-pane active">
@@ -511,7 +541,7 @@ if (!empty($_SESSION['loginsuccess'])) {
                       <td><?php echo $ho  ?></td>
                       <td> <span class="<?php echo $home['icon'] ?>"></span></td>
                       <td><a href="<?php echo $home['link'] ?>" target="_blank" rel="noopener noreferrer"><?php echo $home['link'] ?></a> </td>
-                      <td><a href="<?php echo $home['link'] ?>" class="nav-link" target="_blank" rel="noopener noreferrer"><?php echo $home['name'] ?></a></td>
+                      <td><a href="<?php echo $home['link'] ?>" class="nav-link" target="_blank" rel="noopener noreferrer"><?php echo ucwords($home['name']) ?></a></td>
                      
                           <td><?php echo $home['reg_date']; ?></td>
                           <td>
@@ -546,12 +576,16 @@ if (!empty($_SESSION['loginsuccess'])) {
                           <label for="">Contact Icon</label>
                           <select class="form-control" name="icon">
                             <option value="">Select Category</option>
-                            <option value="fab fa-facebook-square">Facebook</option>
-                            <option value="fab fa-whatsapp-square">WhatsApp</option>
-                            <option value="fab fa-github">Github</option>
-                            <option value="fab fa-twitter-square">Twitter</option>
-                            <option value="fab fa-linkedin">Linkedin</option>
-                            <option value="fab fa-instagram">Instagram</option>
+                            <?php 
+                            $ic = queryDbs("SELECT* FROM icons");
+                            while($ico = data($ic)){
+                              $icons = $ico['icons'];
+                              $iconname = $ico['name'];
+
+                            
+                            ?>
+                            <option value="<?php echo $icons ?>"><?php echo ucwords($iconname) ?></option>
+                            <?php } ?>
 
                           </select>
                           <div class="form-group">
@@ -709,6 +743,157 @@ if (!empty($_SESSION['loginsuccess'])) {
               </div>
             </div>
           </div>
+          <div id="writer" class="container tab-pane fade">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <h3 class="text-center text-uppercase">Writer settings</h3>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="card-body">
+                  <a href="#addwriter" data-toggle="modal" class="btn btn-primary p-2 text-uppercase">add home settings</a>
+                  <table class="table table-bordered table-striped table-hover table-responsive">
+                    <thead>
+                      <tr>
+                        <th>S/N</th>
+                        <th>Writer</th>
+                        <th>Date Added</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      $ho = 1;
+                      $h = queryDbs("SELECT* FROM writer");
+                      while ($home = data($h)) {
+
+
+                      ?>
+                        <tr>
+                          <td><?php echo $ho; ?></td>
+                         <td><?php echo html_entity_decode($home['content']); ?></td>
+                         
+                          <td><?php echo $home['reg_date']; ?></td>
+                          <td>
+                            <a href="#writerdelete" class=" btn btn-danger" data-toggle="modal" writer="<?php echo $home['id'] ?>"><span class="p-2 m-1 fa fa-trash"></span></a>
+                          </td>
+                        </tr>
+                      <?php 
+                    $ho++;
+                    } ?>
+                    </tbody>
+                  </table>
+
+
+                </div>
+              </div>
+              <div class="modal" id="addwriter">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Add Writer Settings</h4>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <p class="text-danger addwritererror"></p>
+                      <form id="addwriterform" enctype="multipart/form-data">
+                        <div class="form-group">
+                          <label for="usr">Writer Content:</label>
+                          <input type="text" class="form-control" name="writercontent" id="usr">
+                      </div>
+                        <button class="btn btn-success btn-lg mr-5 mt-3 float-right">Add writer</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div id="icon" class="container tab-pane fade">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <h3 class="text-center text-uppercase">Icon settings</h3>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="card-body">
+                  <a href="#addicon" data-toggle="modal" class="btn btn-primary p-2 text-uppercase">add icons settings</a>
+                  <table class="table table-bordered table-striped table-hover table-responsive">
+                    <thead>
+                      <tr>
+                        <th>S/N</th>
+                        <th>Icon Code</th>
+                        <th>Icon Name</th>
+                        <th>Date Added</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      $ho = 1;
+                      $h = queryDbs("SELECT* FROM icons");
+                      while ($home = data($h)) {
+
+
+                      ?>
+                        <tr>
+                          <td><?php echo $ho; ?></td>
+                          <td><?php echo html_entity_decode($home['icons']); ?> <span class="ml-3 p-2"><i class="<?php echo $home['icons']?>" ></i></span></td>
+                          <td><?php echo ucwords($home['name']); ?></td>
+                         
+                          <td><?php echo $home['reg_date']; ?></td>
+                          <td>
+                            <a href="#icondelete" class=" btn btn-danger" data-toggle="modal" icon="<?php echo $home['id'] ?>"><span class="p-2 m-1 fa fa-trash"></span></a>
+                          </td>
+                        </tr>
+                      <?php 
+                    $ho++;
+                    } ?>
+                    </tbody>
+                  </table>
+
+
+                </div>
+              </div>
+              <div class="modal" id="addicon">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Add Icon Settings</h4>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <p class="text-danger addiconerror"></p>
+                      <form id="addiconform" enctype="multipart/form-data">
+                        <div class="form-group">
+                          <label for="usr">Icon Name:</label>
+                          <input type="text" class="form-control" name="name" id="usr">
+                      </div>
+                      <div class="form-group">
+                          <label for="usr">Icon Code:</label>
+                          <input type="text" class="form-control" name="icon" id="usr">
+                      </div>
+                        <button class="btn btn-success btn-lg mr-5 mt-3 float-right">Add Icon</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
 
         </div>
       </div>
@@ -746,6 +931,14 @@ if (!empty($_SESSION['loginsuccess'])) {
     <div id="aboutstatus" class="modal">
       <div class="modal-dialog">
         <div class="aboutstatus">
+
+        </div>
+      </div>
+    </div>
+     <!-- writer -->
+     <div id="writerdelete" class="modal">
+      <div class="modal-dialog">
+        <div class="writerdelete">
 
         </div>
       </div>
@@ -888,6 +1081,13 @@ if (!empty($_SESSION['loginsuccess'])) {
       </div>
     </div>
 
+    <div id="icondelete" class="modal">
+      <div class="modal-dialog">
+        <div class="icondelete">
+
+        </div>
+      </div>
+
   </body>
 
   </html>
@@ -901,7 +1101,7 @@ if (!empty($_SESSION['loginsuccess'])) {
 <script src="../jquery/jquery.min.js"></script>
 <script src="../jquery/popper.js"></script>
 <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="summernote/summernote.min.js"></script>
+<script src="summernote/summernote-bs4.min.js"></script>
 <script src="auth.js"></script>
 <script>
 

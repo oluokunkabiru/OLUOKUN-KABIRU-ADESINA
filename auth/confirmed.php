@@ -525,8 +525,26 @@ if(isset($_POST['contactdeleteconfirm'])){
     }
 }
 
+
+// writer
+if(isset($_POST['writerdeletefirm'])){
+    $id = $_POST['writerdeletefirm'];
+    $q = queryDbs("DELETE FROM writer WHERE id = '$id' ");
+    if($q){
+        rediret("dashboard.php");
+    }
+}
+// writer
+if(isset($_POST['icondeletefirm'])){
+    $id = $_POST['icondeletefirm'];
+    $q = queryDbs("DELETE FROM icons WHERE id = '$id' ");
+    if($q){
+        rediret("dashboard.php");
+    }
+}
+
 if(isset($_POST['updatecontactform'])){
-    $id = $_POST['updatecontactform'];
+    $id = $_POST['id'];
     $errors = [];
     if(empty($_POST['icon'])){
         $errors[]="Please choose contact icon";
@@ -549,7 +567,7 @@ if(isset($_POST['updatecontactform'])){
         $icon = test_input($_POST['icon']);
         $link = test_input($_POST['link']);
 
-        $home = queryDbs("UPDATE contacts SET name ='$name', icon='$icon', link='$link' ");
+        $home = queryDbs("UPDATE contacts SET name ='$name', icon='$icon', link='$link' WHERE id='$id' ");
         if($home){
             echo "<h3 class='text-success'>Insert successfully</h2>";
         }else{

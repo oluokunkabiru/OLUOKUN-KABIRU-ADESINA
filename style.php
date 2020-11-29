@@ -9,9 +9,20 @@ $bgcolor = $data['bgcolor'];
 $text = $data['text'];
 function reversecolor($data){
   $re = str_replace("#", "", $data);
-  $rev = strrev($re);
-  $newcolor = "#".$rev;
-  return $newcolor;
+    $r = substr($re, 0,2);
+    $g = substr($re, 2,2);
+    $b = substr($re, 4,2);
+    $r1 = base_convert($r,16,10);
+    $g1 = base_convert($g,16,10);
+    $b1 = base_convert($b,16,10);
+    $r2 = 255-$r1;
+    $g2 = 255-$g1;
+    $b2 = 255-$b1;
+    $r3 = str_pad(base_convert($r2,10,16), 2,"0");
+    $g3 = str_pad(base_convert($g2,10,16), 2,"0");
+    $b3 = str_pad(base_convert($b2,10,16), 2,"0");
+    $new = "#".$r3.$g3.$b3;
+  return $new;
 }
 
  ?>
@@ -23,7 +34,7 @@ function reversecolor($data){
 .nav-item a.nav-link{
     font-size: 20px;
     margin: 10px;
-    color: white;
+    color: <?php echo $text ?>;
     
     
 }
@@ -53,7 +64,7 @@ a.nav-link:hover{
     min-width: 90px;
     max-width: 180px;
     height: min-content;
-     background: #ffffff; 
+     background: #fff; 
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
     transition: all 0.3s;
@@ -66,11 +77,11 @@ a.nav-link:hover{
       margin-left: -120px; }
       #sidebar.active .custom-menu {
         margin-right: -50px; }
-      #sidebar.active .btn.btn-primary:before {
+      #sidebar.active .btn.btn-prima:before {
         content: "\f053";
         font-family: "FontAwesome";
         left: 2px !important; }
-      #sidebar.active .btn.btn-primary:after {
+      #sidebar.active .btn.btn-prima:after {
         display: none; }
     
 
@@ -80,11 +91,16 @@ a.nav-link:hover{
         min-height: 100vh;
         -webkit-transition: all 0.3s;
         -o-transition: all 0.3s;
-        transition: all 0.3s; }
+        transition: all 0.3s;
+       }
+        #sidebar ul li a{
+          color:<?php echo reversecolor($text) ?>
+          
+        }
         #sidebar ul li a:hover {
-          color: <?php echo reversecolor($navbar) ?>;
-          background: #000000;
-          border-bottom: 1px solid  <?php echo $navbar ?>;
+        background-color:<?php echo reversecolor($text) ?>;
+        color:<?php echo $text ?>;
+          border-bottom: 1px solid  <?php echo reversecolor($navbar) ?>;
            }
 
       #sidebar ul li.active > a {
@@ -117,14 +133,14 @@ a.nav-link:hover{
           -webkit-transition: none;
           -o-transition: none;
           transition: none; } }
-      #sidebar .custom-menu .btn.btn-primary {
+      #sidebar .custom-menu .btn.btn-prima {
         background:  <?php echo $navbar ?>;
         border-color: transparent;
         position: relative;
-        color: #000;
+        color: <?php echo $text ?>;
         width: 30px;
         height: 30px; }
-        #sidebar .custom-menu .btn.btn-primary:after, #sidebar .custom-menu .btn.btn-primary:before {
+        #sidebar .custom-menu .btn.btn-prima:after, #sidebar .custom-menu .btn.btn-prima:before {
           position: absolute;
           top: 0px;
           left: 0;
@@ -132,7 +148,7 @@ a.nav-link:hover{
           bottom: 0;
           font-family: "FontAwesome";
           color: #fff; }
-        #sidebar .custom-menu .btn.btn-primary:after {
+        #sidebar .custom-menu .btn.btn-prima:after {
           content: "\f053";
           right: 2px; }
   
@@ -152,12 +168,12 @@ a.nav-link:hover{
         -o-transition: all 0.3s;
         transition: all 0.3s; }
       
-      .btn.btn-primary {
+      .btn.btn-prima {
         background:  <?php echo $navbar ?>;
-        border-color:  <?php echo $navbar ?>; }
+        border-color:  <?php echo $navbar."77" ?>; }
         .btn.btn-primary:hover, .btn.btn-primary:focus {
-          background:  <?php echo reversecolor($navbar) ?> !important;
-          border-color:  <?php echo $navbar ?> !important; 
+          background:  <?php echo $navbar ?> !important;
+          border-color:  <?php echo reversecolor($navbar) ?> !important; 
         }
         
   .userimage{
@@ -165,7 +181,7 @@ a.nav-link:hover{
     background-size: 100%;
   }
   .introduction{
-    background-image: linear-gradient( <?php echo reversecolor($navbar)."66" ?>,  <?php echo $navbar."66" ?>);
+    background-image: linear-gradient( <?php echo $navbar."66" ?>,  <?php echo reversecolor($navbar)."66" ?>);
     background-size: 100%;
     border-radius: 100px;
   }
@@ -190,7 +206,7 @@ a.nav-link:hover{
     .nav-item a.nav-link{
       font-size: 20px;
       margin: 10px;
-      color: <?php echo reversecolor($navbar) ?>;
+      color: <?php echo $text ?>;
       
   }
   }
