@@ -187,9 +187,28 @@ a.nav-link:hover{
     background-size: 100%;
     border-radius: 100px;
   }
+  .carousel-caption{
+    background-image: linear-gradient( rgb(0, 0, 0, 0.5),  rgba(0, 0, 0, 0.5)); 
+  }
+  .carousel-item img{
+    height:34em;
+  }
+  .carousel-caption h3{
+    font-weight: bold;
+    text-transform: capitalize;
+  }
   @media screen and (max-width:768px){
     .introduction h1{
       font-size: 20px;
+    }
+    .carousel-item img{
+      height:17em;
+      object-fit: cover;
+    }
+    .carousel-caption h3{
+      font-size: 1.5em;
+      font-weight: bold;
+      text-transform: capitalize;
     }
     .introduction h3{
       font-size: 18px;

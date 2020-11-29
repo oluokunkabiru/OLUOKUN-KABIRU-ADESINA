@@ -287,44 +287,47 @@ function reversecolor($data){
         <div class="row">
           <div class="col-md-4"></div>
           <div class="col-md-4">
-              <h3 style="background-color: <?php echo $navbar ?>;" class="text-center text-center rounded-circle p-5 text-light font-weight-bold">Recent Project</h3>
+              <h3 style="background-color:<?php echo $navbar ?>; color:<?php echo reversecolor($navbar) ?>" class="text-center text-center rounded-circle p-5 font-weight-bold" >Recent Project</h3>
           </div>
           <div class="col-md-4"></div>
         </div>
         <div id="demo" class="carousel slide" data-ride="carousel">
-
+        <div class="carousel-inner">
           <!-- Indicators -->
-          <ul class="carousel-indicators">
-            <li data-target="#demo" data-slide-to="0" class="active"></li>
-            <li data-target="#demo" data-slide-to="1"></li>
-            <li data-target="#demo" data-slide-to="2"></li>
-            <li data-target="#demo" data-slide-to="4"></li>
-            <li data-target="#demo" data-slide-to="5"></li>
-          </ul>
+          <?php 
+           $prfi = queryDbs("SELECT* FROM projects WHERE status='enabled' ");
+           $projec = data($prfi);
+           $names = $projec['project_name'];
+           $descrs = $projec['description'];
+           $projectpictures = "auth/". $projec['pictures'];
+        ?>
+           <div class="carousel-item active">
+           <img src="<?php echo $projectpictures ?>" class="card-img" alt="<?php echo $names ?>">
+              <div class="carousel-caption">
+              <h3><?php echo $names ?></h3>
+              <?php echo ucfirst(htmlspecialchars_decode($descrs)) ?>
+              </div>
+            </div>
+        <?php
+        $pro = queryDbs("SELECT* FROM projects WHERE status='enabled' ORDER BY id DESC");
+        while($project = data($pro)){
+          $name = $project['project_name'];
+          $descr = $project['description'];
+          $projectpicture = "auth/". $project['pictures'];
+        ?>
         
           <!-- The slideshow -->
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="image/recent1.png" class="card-img" alt="Los Angeles">
-            </div>
+         
             <div class="carousel-item">
-              <img src="image/student (1).png" class="card-img" alt="Chicago">
+              <img src="<?php echo $projectpicture ?>" class="card-img" alt="<?php echo $name ?>">
+              <div class="carousel-caption">
+              <h3><?php echo $name ?></h3>
+              <?php echo ucfirst(htmlspecialchars_decode($descr)) ?>
             </div>
-            <div class="carousel-item">
-              <img src="image/student (2).png" class="card-img" alt="New York">
             </div>
-
-            <div class="carousel-item">
-              <img src="image/19.jpg" class="card-img" alt="New York">
-            </div>
-            <div class="carousel-item">
-              <img src="image/rarus.png" class="card-img" alt="New York">
-            </div>
-            <div class="carousel-item">
-              <img src="image/codekajola.png" class="card-img" alt="New York">
-            </div>
-          </div>
-        
+      <?php } ?>
+           
+        </div>
           <!-- Left and right controls -->
           <a class="carousel-control-prev" href="#demo" data-slide="prev">
             <span class="carousel-control-prev-icon"></span>
