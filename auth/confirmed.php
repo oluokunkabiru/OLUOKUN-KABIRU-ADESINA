@@ -576,4 +576,61 @@ if(isset($_POST['updatecontactform'])){
     }
    
 }
+
+
+
+if(isset($_POST['enableaddressstatus'])){
+    $id = $_POST['enableaddressstatus'];
+$currentstatus = "enabled";
+$status = "disabled";
+
+$q = queryDbs("UPDATE address SET status = '$status' ");
+if($q){
+    $cu = queryDbs("UPDATE address SET status='$currentstatus' WHERE id='$id' ");
+    if($cu){
+        rediret("dashboard.php");
+    }
+}else{
+    echo " Fail to Update ". querryError();
+}
+
+}
+
+if(isset($_POST['addressdeletefirm'])){
+    $id = $_POST['addressdeletefirm'];
+    $q = queryDbs("DELETE FROM address WHERE id = '$id' ");
+    if($q){
+        rediret("dashboard.php");
+    }
+}
+
+
+if(isset($_POST['updateaddressformconfirm'])){
+    $id = $_POST['id'];
+    $errors =[];
+    if(empty($_POST['phone'])){
+        $errors[]="Phone number is required";
+    }
+    if(empty($_POST['email'])){
+        $errors[]="Email address is required";
+    }
+    if(strlen($_POST['address'])<6){
+        $errors[]="Full contact address is required";
+    }
+    foreach($errors as $error){
+        echo $error."<br>";
+    }
+    if(count($errors)==0){
+        $phone = test_input($_POST['phone']);
+        $email =test_input($_POST['email']);
+        $address = test_input($_POST['address']);
+        $home = queryDbs("UPDATE address SET phone ='$phone',  email='$email',address='$address' WHERE id='$id' ");
+        if($home){
+            echo "<h3 class='text-success'>Insert successfully</h2>";
+        }else{
+            echo "Fail to insert <br>". querryError();
+        }
+    }
+
+}
 ?>

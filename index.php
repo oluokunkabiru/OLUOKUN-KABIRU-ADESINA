@@ -359,12 +359,15 @@ function reversecolor($data){
                       <div class="">
                           <form id="contactme" method="post">
                                       <div class="form-group">
+                                      <label for="usr" class="text-center" style="color:<?php echo $text ?>">Your name in full</label>
                                           <input class="form-control" type="text" name="name" placeholder="Name">
                                       </div>
                                       <div class="form-group">
+                                      <label for="usr" class="text-center" style="color:<?php echo $text ?>">Your email address</label>
                                           <input class="form-control" type="email" name="email" placeholder="Email">
                                       </div>
                                       <div class="form-group">
+                                      <label for="usr" class="text-center" style="color:<?php echo $text ?>">Your beautiful message</label>
                                           <textarea id="textarea" class="form-control" placeholder="message" name="message"></textarea>
                                       </div>
                                       <div class="mx-auto mt-3">
@@ -374,20 +377,28 @@ function reversecolor($data){
                           </form>
                       </div>
                   </div>
+                  <?php
+                    $cad = queryDbs("SELECT* FROM address WHERE status='enabled'");
+                    $cont = data($cad);
+                    $caddress= $cont['address'];
+                    $cphone = $cont['phone'];
+                    $cemail = $cont['email'];
+                  
+                  ?>
                   <div class="col-lg-6 col-md-6 footer-grid-wthree foot-top ml-4">
                       <h3 class="footer-title  text-white mb-4 mt-sm-3">Address</h3>
                       <div class="contact-info">
                           <div class="footer-style-w3ls">
-                              <h4 class="text-light mb-2">Phone</h4>
-                              <p class="text-light">+2348130584550</p>
+                              <h4 style="color:<?php echo $text  ?>" class="mb-2">Phone</h4>
+                              <p style="color:<?php echo $text ?>"><?php echo $cphone  ?></p>
                           </div>
                           <div class="footer-style-w3ls my-4">
-                              <h4 class="text-light mb-2">Email </h4>
-                              <p><a href="mailto:oluokunkabiru2015@gmail.com" style="text-decoration: none; color: white;">oluokunkabiru2015@gmail.com</a></p>
+                              <h4 style="color: <?php echo $text  ?>;" class=" mb-2">Email </h4>
+                              <p><a href="<?php echo $cemail  ?>" style="text-decoration: none; color: <?php echo $text  ?>;"><?php echo $cemail  ?></a></p>
                           </div>
                           <div class="footer-style-w3ls">
-                              <h4 class="text-light mb-2">Location</h4>
-                              <p class="text-light">Osogbo, Osun State Nigeria</p>
+                              <h4 style="color: <?php echo $text  ?>;" class="mb-2">Location</h4>
+                              <span class="" style="color:<?php echo $text  ?>;"><?php echo htmlspecialchars_decode($caddress)  ?></span>
                           </div>
                           <table class="ml-5 mr-3">
                          

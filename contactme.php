@@ -1,5 +1,31 @@
 <?php 
+include('vendor/autoload.php');
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 include('auth/db.php');
+$ap = queryDbs("SELECT* FROM appearances WHERE status='enabled' ");
+$co = data($ap);
+$backgroundColor = $co['navbar'];
+$textColo = $co['text'];
+function reversecolor($data){
+    $re = str_replace("#", "", $data);
+      $r = substr($re, 0,2);
+      $g = substr($re, 2,2);
+      $b = substr($re, 4,2);
+      $r1 = base_convert($r,16,10);
+      $g1 = base_convert($g,16,10);
+      $b1 = base_convert($b,16,10);
+      $r2 = 255-$r1;
+      $g2 = 255-$g1;
+      $b2 = 255-$b1;
+      $r3 = str_pad(base_convert($r2,10,16), 2,"0");
+      $g3 = str_pad(base_convert($g2,10,16), 2,"0");
+      $b3 = str_pad(base_convert($b2,10,16), 2,"0");
+      $new = "#".$r3.$g3.$b3;
+    return $new;
+  }
+
 $errors =[];
 if(empty($_POST['name'])){
     $errors[]="Please supply your name";
@@ -21,62 +47,207 @@ if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
       echo $error."<br>";
   }
   if(count($errors)==0){
-//       $name = test_input($_POST['name']);
-//       $email = test_input($_POST['email']);
-//       $message = test_input($_POST['message']);
-//       $to = 'oluokunkabiru@gmail.com';
-// $subject = 'Marriage Proposal';
-// $from = 'okathevillageboy@email.com';
- 
-// // To send HTML mail, the Content-type header must be set
-// $headers  = 'MIME-Version: 1.0' . "\r\n";
-// $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
- 
-// // Create email headers
-// $headers .= 'From: '.$from."\r\n".
-//     'Reply-To: '.$from."\r\n" .
-//     'X-Mailer: PHP/' . phpversion();
- 
-// // Compose a simple HTML email message
-// $message = '<html><body>';
-// $message .= '<h1 style="color:#f40;">Hi Jane!</h1>';
-// $message .= '<p style="color:#080;font-size:18px;">Will you marry me?</p>';
-// $message .= '</body></html>';
- 
-// // Sending email
-// if(mail($to, $subject, $message, $headers)){
-//     echo 'Your mail has been sent successfully.';
-// } else{
-//     echo 'Unable to send email. Please try again.';
-// }
+      $name = test_input($_POST['name']);
+      $email = test_input($_POST['email']);
+      $messages = test_input($_POST['message']);
+      $mymessage = '
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Document</title>
+          <style>
+              .containers {
+                  border-radius: 20%;
+                  margin-right: auto;
+                  margin-left: auto;
+                  width: 40%;
+                  background-color: '.$backgroundColor.';
+                  color: '.reversecolor($backgroundColor).';
+                  margin-top: 5%;
+                  margin-bottom: 20%;
+                  padding: 2%;
+                  box-shadow: 5px 5px 5px #b3b3b3;
+                  font-family: Arial, Helvetica, sans-serif;
+              }
+              .content{
+                  text-align: center;
+              }
+              @media screen and (max-width:768px) {
+                .containers {
+                  width: 85%;
+                 
+                
+              }
+       
+              }
+             
+          </style>
+      </head>
+      <body>
+          <div class="containers">
+              <div class="content">
+                  <h3>Name: <b>'. ucwords($name) .'</b></h3>
+                  <h3>Email <b>'.$email.'</b></h3>
+                  <h1> Messages </h1>
+                  <p> '. $messages .' </p>
+                  </div>
+          </div>
+      </body>
+      </html>';
 
-// Using Awesome https://github.com/PHPMailer/PHPMailer
-require 'PHPMailerAutoload.php';
+      $respient ='
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Document</title>
+          <style>
+              .containers {
+                  border-radius: 20%;
+                  margin-right: auto;
+                  margin-left: auto;
+                  width: 40%;
+                  background-color: '.$backgroundColor.';
+                  color: '.reversecolor($backgroundColor).';
+                  margin-top: 5%;
+                  margin-bottom: 20%;
+                  padding: 2%;
+                  box-shadow: 5px 5px 5px #b3b3b3;
+                  font-family: Arial, Helvetica, sans-serif;
+              }
+              .content{
+                  text-align: center;
+              }
+              @media screen and (max-width:768px) {
+                .containers {
+                  width: 85%;
+                 
+                }
+              }
+       
+             
+          </style>
+      </head>
+      <body>
+          <div class="containers">
+              <div class="content">
+                  <h3>Dear <b>'.$name .'</b>,</h3>
+                  <h1>Thank you for contact us, we will get back to you <b>shortly</b></h1>
+                  </div>
+          </div>
+      </body>
+      </html>';
+      
+$mail = new PHPMailer(true);
+  //Server settings
+    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+    $mail->isSMTP();                                            // Send using SMTP
+    $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+    $mail->Username   = 'okathevillageboy@gmail.com';                     // SMTP username
+    $mail->Password   = 'OLUOKUN2015'; 
+    $mail->SMTPDebug = 0;
+    $mail->CharSet = "UTF-8";                              // SMTP password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+    $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
-// $mail = new PHPMailer;
+    //Recipients
+    $mail->addReplyTo($email, $name);
+    $mail->setFrom('okathevillageboy@gmail.com', ucwords($name));
+    $mail->addAddress('oluokunkabiru2015@gmail.com', ucwords($name));     // Add a recipient
+    
+    $mail->isHTML(true);                                  // Set email format to HTML
+    $mail->Subject = 'MESSAGE FROM MY PORTIFOLIO';
+    $mail->Body    = $mymessage;
+    $mail->AltBody = $mymessage;
 
-$mail->isSMTP();                                      // Set mailer to use SMTP
-$mail->Host = 'smtp.mailgun.org';                     // Specify main and backup SMTP servers
-$mail->SMTPAuth = true;                               // Enable SMTP authentication
-$mail->Username = 'postmaster@YOUR_DOMAIN_NAME';   // SMTP username
-$mail->Password = 'secret';                           // SMTP password
-$mail->SMTPSecure = 'tls';                            // Enable encryption, only 'tls' is accepted
 
-$mail->From = 'YOU@YOUR_DOMAIN_NAME';
-$mail->FromName = 'Mailer';
-$mail->addAddress('bar@example.com');                 // Add a recipient
+    $resp =  new PHPMailer(true);
+    //Server settings
+      $resp->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+      $resp->isSMTP();                                            // Send using SMTP
+      $resp->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
+      $resp->SMTPAuth   = true;                                   // Enable SMTP authentication
+      $resp->Username   = 'okathevillageboy@gmail.com';                     // SMTP username
+      $resp->Password   = 'OLUOKUN2015'; 
+      $resp->SMTPDebug = 0;
+      $resp->CharSet = "UTF-8";                              // SMTP password
+      $resp->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+      $resp->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+  
+      //Recipients
+      $mail->addReplyTo('oluokunkabiru2015@gmail.com', 'OLUOKUN KABIRU ADESINA');
+      $resp->setFrom('okathevillageboy@gmail.com', "OLUOKUN KABIRU ADESINA");
+      $resp->addAddress($email, ucwords($name));     // Add a recipient
+      
+      $resp->isHTML(true);                                  // Set email format to HTML
+      $resp->Subject = 'OLUOKUN KABIRU ADESINA';
+      $resp->Body    = $respient;
+      $resp->AltBody = $respient;
+  $resp->send();
+    $mail->send();
+   
+    if($mail->send()){
+         echo 'Message has been sent';
+    }else{
+        echo "Message could not be sent. <b> <b>Mailer Error: Please check your email very well</b> ";
+    }
 
-$mail->WordWrap = 50;                                 // Set word wrap to 50 characters
+    // {$mail->ErrorInfo}
 
-$mail->Subject = 'Hello';
-$mail->Body    = 'Testing some Mailgun awesomness';
 
-if(!$mail->send()) {
-    echo 'Message could not be sent.';
-    echo 'Mailer Error: ' . $mail->ErrorInfo;
-} else {
-    echo 'Message has been sent';
-}
   }
 
+
+?>
+
+
+<?php
+
+$header ='
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .containers {
+            border-radius: 20%;
+            margin-right: auto;
+            margin-left: auto;
+            width: 40%;
+            background-color: '.$backgroundColor.';
+            color: '.reversecolor($backgroundColor).';
+            margin-top: 5%;
+            margin-bottom: 20%;
+            padding: 2%;
+            box-shadow: 5px 5px 5px #b3b3b3;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .content{
+            text-align: center;
+        }
+        @media screen and (max-width:768px) {
+                .containers {
+                  width: 80%;
+                 
+                }
+              }
+       
+    </style>
+</head>
+<body>
+    <div class="containers">
+        <div class="content">
+            <h3>Dear <b>oluokun</b>,</h3>
+            <h1>Thank you for contact us, we will get back to you <b>shortly</b></h1>
+            </div>
+    </div>
+</body>
+</html>';
+echo $header;
 ?>

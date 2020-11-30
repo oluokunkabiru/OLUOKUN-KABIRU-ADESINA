@@ -79,7 +79,7 @@ if (!empty($_SESSION['loginsuccess'])) {
               <div class="dropdown-menu">
                 <a class="dropdown-item" data-toggle="pill" href="#writer">Writer</a>
                 <a class="dropdown-item" data-toggle="pill" href="#icon">Icons</a>
-                <a class="dropdown-item" data-toggle="pill" href="#">Link 3</a>
+                <a class="dropdown-item" data-toggle="pill" href="#address">Address and Contact</a>
               </div>
             </li>
               <li class="nav-item">
@@ -894,6 +894,111 @@ if (!empty($_SESSION['loginsuccess'])) {
             </div>
           </div>
 
+          <div id="address" class="container tab-pane fade">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <h3 class="text-center text-uppercase">Address and Contact</h3>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="card-body">
+                  <a href="#addaddress" data-toggle="modal" class="btn btn-primary p-2 text-uppercase">add icons settings</a>
+                  <table class="table table-bordered table-striped table-hover table-responsive">
+                    <thead>
+                      <tr>
+                        <th>S/N</th>
+                        <th>Address</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Date Added</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      $ho = 1;
+                      $h = queryDbs("SELECT* FROM address");
+                      while ($home = data($h)) {    
+                        $phone = $home['phone'];
+                        $email = $home['email'];
+                        $address = $home['address'];
+                        $status = $home['status'];
+                        $ids =$home['id'];                        
+                      ?>
+                        <tr>
+                          <td><?php echo $ho; ?></td>
+                          <td><?php echo html_entity_decode($address); ?> </td>
+                          <td><?php echo $email; ?></td>
+                          <td><?php echo html_entity_decode($phone); ?> </td>
+                          <td><?php echo $home['reg_date']; ?></td>
+                          <td>
+                          <?php 
+                      if ($status == "enabled") {
+                            ?>
+
+                              <h4> <a href="#addressstatus" class="text-success" data-toggle="modal" address="<?php echo $ids ?>">Enabled<span class="text-success mr-2 fa fa-check"></span></a></h4>
+                            <?php
+                            } else {
+                            ?>
+                              <h4> <a href="#addressstatus" class="text-danger" data-toggle="modal" address="<?php echo $ids ?>">Disabled<span class="text-danger mr-2 fa fa-window-close"></span></a></h4>
+
+                            <?php } ?>
+                          </td>
+                          <td>
+
+
+                            <a href="#addressedit" class=" btn btn-primary" data-toggle="modal" address="<?php echo $ids ?>"><span class="p-2 m-1 fa fa-edit"></span></a>
+                            <a href="#addressdelete" class=" btn btn-danger" data-toggle="modal" address="<?php echo $ids ?>"><span class="p-2 m-1 fa fa-trash"></span></a>
+                          </td>
+                        </tr>
+                      <?php 
+                    $ho++;
+                    } ?>
+                    </tbody>
+                  </table>
+
+
+                </div>
+              </div>
+              <div class="modal" id="addaddress">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Add Address Settings</h4>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <p class="text-danger addaddresserror"></p>
+                      <form id="addaddressform" enctype="multipart/form-data">
+                        <div class="form-group">
+                          <label for="usr">Phone Number</label>
+                          <input type="text" class="form-control" name="phone" id="usr">
+                      </div>
+                      <div class="form-group">
+                          <label for="usr">Email Address</label>
+                          <input type="email" class="form-control" name="email" id="usr">
+                      </div>
+                      <div class="form-group">
+                          <label for="usr">Contact Address:</label>
+                          <textarea id="textarea" class="form-control textarea" placeholder="address" name="address"></textarea>
+
+                      </div>
+                        <button class="btn btn-success btn-lg mr-5 mt-3 float-right">Add contact</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
 
         </div>
       </div>
@@ -1087,6 +1192,32 @@ if (!empty($_SESSION['loginsuccess'])) {
 
         </div>
       </div>
+    </div>
+
+      <div id="addressdelete" class="modal">
+      <div class="modal-dialog">
+        <div class="addressdelete">
+
+        </div>
+      </div>
+      </div>
+
+      <div id="addressedit" class="modal">
+      <div class="modal-dialog">
+        <div class="addressedit">
+
+        </div>
+      </div>
+      </div>
+
+      <div id="addressstatus" class="modal">
+      <div class="modal-dialog">
+        <div class="addressstatus">
+
+        </div>
+      </div>
+      </div>
+
 
   </body>
 

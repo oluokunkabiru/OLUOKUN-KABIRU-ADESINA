@@ -566,6 +566,92 @@ if(isset($_POST['homestatus'])){
               </div>
                 </div>';
               }
+
+
+              if(isset($_POST['addressedit'])){
+                $id = $_POST['addressedit'];
+                $q = queryDbs("SELECT* FROM address WHERE id = '$id' ");
+                $data = data($q);
+
+                echo ' <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Update Address Settings</h4>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <p class="text-danger uppdateaddresserror"></p>
+                  <form id="updateaddressform" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label for="usr">Phone Number</label>
+                      <input type="text" class="form-control" value="'. $data['phone'] .'" name="phone" id="usr">
+                  </div>
+                  <div class="form-group">
+                      <label for="usr">Email Address</label>
+                      <input type="email" class="form-control"  value="'. $data['email'] .'" name="email" id="usr">
+                  </div>
+                  <div class="form-group">
+                      <label for="usr">Contact Address:</label>
+                      <textarea id="textarea" class="form-control textarea" placeholder="address" name="address">
+                      '. html_entity_decode($data['address']) .'
+                      </textarea>
+                      <input type="hidden" name="updateaddressformconfirm" value="updateaddressform">
+                      <input type="hidden" name="id" value="'.$data['id'].'">
+                  </div>
+                    <button class="btn btn-success btn-lg mr-5 mt-3 float-right">Add contact</button>
+                  </form>
+                </div>
+              </div>';
+
+              }
+
+              if(isset($_POST['addressdelete'])){
+                $id = $_POST['addressdelete'];
+                $q = queryDbs("SELECT* FROM address WHERE id = '$id' ");
+                $data = data($q);
+                echo '<div class="modal-content">
+                <div class="modal-header">
+                   <div class ="modal-body">
+                        <h5>Are you sure you want delete <b>'. htmlspecialchars_decode($data['address']) .'</b></h5>
+                   
+                   </div>
+                   <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                  <div class="modal-footer">
+               
+                   <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+                   <input type="hidden" value="'.$id.'" name="addressdeletefirm">
+                   <button class="btn btn-danger btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">delete</button>
+                   </form>
+                </div>
+                  </div>';
+                }
+
+
+                if(isset($_POST['addressstatus'])){
+                  $id = $_POST['addressstatus'];
+                  $q = queryDbs("SELECT* FROM address WHERE id = '$id' ");
+                  $data = data($q);
+                  echo '<div class="modal-content">
+                  <div class="modal-header">
+                     <div class ="modal-body">
+                          <h5>Are you sure you want enable <b> '. html_entity_decode($data['address']) .'</h5>
+                     
+                     </div>
+                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                      </div>
+                    <div class="modal-footer">
+                 
+                     <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+                     <input type="hidden" value="'.$id.'" name="enableaddressstatus">
+                     <button class="btn btn-success btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">enable</button>
+                     </form>
+                  </div>
+                    </div>';
+                  }
     
 ?>
 
