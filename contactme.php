@@ -1,4 +1,5 @@
 <?php 
+session_start();
 include('vendor/autoload.php');
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -191,6 +192,7 @@ $mail = new PHPMailer(true);
     $mail->send();
    
     if($mail->send()){
+        $_SESSION['contactname'] = $name;
          echo 'Message has been sent';
     }else{
         echo "Message could not be sent. <b> <b>Mailer Error: Please check your email very well</b> ";
@@ -202,52 +204,4 @@ $mail = new PHPMailer(true);
   }
 
 
-?>
-
-
-<?php
-
-$header ='
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .containers {
-            border-radius: 20%;
-            margin-right: auto;
-            margin-left: auto;
-            width: 40%;
-            background-color: '.$backgroundColor.';
-            color: '.reversecolor($backgroundColor).';
-            margin-top: 5%;
-            margin-bottom: 20%;
-            padding: 2%;
-            box-shadow: 5px 5px 5px #b3b3b3;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-        .content{
-            text-align: center;
-        }
-        @media screen and (max-width:768px) {
-                .containers {
-                  width: 80%;
-                 
-                }
-              }
-       
-    </style>
-</head>
-<body>
-    <div class="containers">
-        <div class="content">
-            <h3>Dear <b>oluokun</b>,</h3>
-            <h1>Thank you for contact us, we will get back to you <b>shortly</b></h1>
-            </div>
-    </div>
-</body>
-</html>';
-echo $header;
 ?>

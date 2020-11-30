@@ -429,6 +429,19 @@ function reversecolor($data){
     </div>
 
    </div>
+  <?php
+  // $bgslider =[];
+  $bgimg = "[";
+  $wr = queryDbs("SELECT* FROM projects ORDER BY id DESC");
+while($k = data($wr)){
+  $bgimg.="&quot;auth/".$k['pictures']."&quot;".",";
+}
+
+$im =rtrim($bgimg," , ");
+$mig = $im."]";
+$image = htmlspecialchars_decode($mig);
+?>
+  
 
    <!-- /content -->
 </div>
@@ -461,7 +474,8 @@ function reversecolor($data){
             $('.contactmeerror').html(response);
             $('.alert').show();
           } 
-          if (response =="<h3 class='text-success'>Insert successfully</h2>") {
+          if (response =="Message has been sent") {
+
             window.location.assign('dashboard.php'); 
              }
         },
@@ -473,9 +487,7 @@ function reversecolor($data){
   });
    $(document).ready(setInterval(slider, 2000));
   function slider(){
-    var imag = ["image/3.jpg","image/4.jpg", "image/5.jpg", "image//6.jpg",
-    "image/7.jpg","image/8.jpg", "image/9.jpg",
-    "image/10.jpg", "image/11.jpg", "image/21.jpg","image/20" ,"image/19"   ];
+    var imag = <?php echo $image ?>
     var ok = document.getElementById('slide');
     var image = imag.sort(function(a, b){return 0.5 - Math.random()});
     ok.style.backgroundImage = "linear-gradient(rgba(85, 233, 238, 0.4), rgba(30, 60, 90, 0.267)), url('"+image[0]+"')";
@@ -489,22 +501,7 @@ function reversecolor($data){
   y.innerHTML = d.getFullYear();
   }
   $(document).ready(year);
-  $(document).ready(greeting);
 
-  function greeting(){
-    var greet = document.getElementById('greet');
-    var say = "";
-    var tim = new Date();
-    var time = tim.getHours();
-    if(time >= 0 && time < 12){
-      say = "Good Morning";
-    }else if(time >= 12 && time <= 16){
-      say = "Good Afternoon";
-  } else {
-    say = "Good Evening";
-  }
- greet.innerHTML = say;
-  }
 </script>
 <!-- 
 
