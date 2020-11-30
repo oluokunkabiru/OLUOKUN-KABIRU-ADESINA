@@ -134,15 +134,15 @@ $androidapp = $android['apk'];
                 <div class="col-md-2"></div>
                 <div class="col-md-4 col-sm-6">
 
-                  <div class="mt-sm-1">
+                  <div class="mt-sm-1 wow bounceInDown">
                     <img src="auth/<?php echo $profile['profile_picture'] ?>" class="m-md-5 m-sm-1 card-img rounded-circle" alt="OLUOKUN KABIRU">
                   </div>
                 </div>
                 <div class="col-md-1"></div>
                <div class="col-md-5 introduction">
                 <!-- <h4 class="text-cente text-light font-weight-bold mt-sm-5 bg-info p-1 rounded" id="greet" ></h4> -->
-                <h3 class="text-center text-light font-weight-bold mt-sm-5" ><?php echo $profile['greet'] ?></h3>
-                <h1 class="text-center text-light font-weight-bold p-2"><?php echo html_entity_decode($profile['description']) ?></h1>
+                <h3 class="text-center font-weight-bold mt-sm-5  wow slideInLeft" style="color: <?php echo $text ?>;" ><?php echo $profile['greet'] ?></h3>
+                <span class="text-center font-weight-bold p-2  wow slideInLeft"  data-wow-delay="0.7s"><?php echo html_entity_decode($profile['description']) ?></span>
                 <!-- <h4 class="text-light text-center p-3 ">I'm a Creative Software Developer</h4> -->
                 <hgroup class="wow fadeInUp">
                   <?php
@@ -173,7 +173,7 @@ $androidapp = $android['apk'];
           <div class="container">
             <div class="row">
               <div class="col-md-4"></div>
-              <div class="col-md-4">
+              <div class="col-md-4 wow bounceInLeft">
                   <h3 id="about" style="background-color:<?php echo $navbar ?>; color:<?php echo reversecolor($navbar) ?>" class="text-center text-center rounded-circle p-5 font-weight-bold" >About</h3>
               </div>
               <div class="col-md-4"></div>
@@ -184,12 +184,12 @@ $androidapp = $android['apk'];
             $profileimage = $about['profile_picture'];
             ?>
             <div class="card-deck">
-              <div class="card">
+              <div class="card wow bounceInUp">
                 <div class="card-body text-center userimage">     
                    <img src="auth/<?php echo $profileimage ?>" style="width: 70%;" class="card-img img-fluid rounded-circle" alt=" OLUOKUN KABIRU ADESINA">
                 </div>
               </div>
-              <div class="card">
+              <div class="card wow bounceInDown">
                 <div class="card-body">
                 <?php echo htmlspecialchars_decode($about['description']) ?>
                 </div>
@@ -205,7 +205,7 @@ $androidapp = $android['apk'];
         <div class="container">
           <div class="row">
             <div class="col-md-4"></div>
-            <div class="col-md-4">
+            <div class="col-md-4  wow bounceInRight">
                 <h3 id="skill" style="background-color: <?php echo $navbar ?>; color:<?php echo reversecolor($navbar) ?>;" class="text-center text-center rounded-circle p-5 font-weight-bold">Skills</h3>
             </div>
             <div class="col-md-4"></div>
@@ -225,7 +225,7 @@ $androidapp = $android['apk'];
               <?php
                 if($frontend){
               ?>
-              <div class="card p-1 ">
+              <div class="card p-1  wow rollIn">
                 <div class="card-title text-center p-2" style="background-color: <?php echo reversecolor($navbar) ?>; color:<?php echo $navbar  ?>;"><h3>Front-End</h3></div>
                 <div class="card-body text-center"> 
                   <ul class="list-group">
@@ -265,7 +265,7 @@ $androidapp = $android['apk'];
                 <?php
                 if($framework){
               ?>
-              <div class="card p-1 ">
+              <div class="card p-1 wow rollIn ">
                 <div class="card-title text-center p-2" style="background-color: <?php echo reversecolor($navbar) ?>; color:<?php echo $navbar  ?>;"><h3>FrameWork</h3></div>
                 <div class="card-body text-center"> 
                   <ul class="list-group">
@@ -292,12 +292,12 @@ $androidapp = $android['apk'];
       <div class="container" id="project">
         <div class="row">
           <div class="col-md-4"></div>
-          <div class="col-md-4">
+          <div class="col-md-4 wow slideInLeft">
               <h3 style="background-color:<?php echo $navbar ?>; color:<?php echo reversecolor($navbar) ?>" class="text-center text-center rounded-circle p-5 font-weight-bold" >Recent Project</h3>
           </div>
           <div class="col-md-4"></div>
         </div>
-        <div id="demo" class="carousel slide" data-ride="carousel">
+        <div id="demo" class="carousel slide wow slideInUp" data-ride="carousel">
         <div class="carousel-inner">
           <!-- Indicators -->
           <?php 
@@ -454,6 +454,7 @@ $image = htmlspecialchars_decode($mig);
 </body>
 </html>
 <script src="jquery/jquery.min.js"></script>
+<script src="jquery/wow.min.js"></script>
 <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="script.js"></script>
 <script src="app.js"></script>
@@ -490,7 +491,7 @@ $image = htmlspecialchars_decode($mig);
     
     })
 
-  });
+
    $(document).ready(setInterval(slider, 2000));
   function slider(){
     var imag = <?php echo $image ?>;
@@ -508,10 +509,29 @@ $image = htmlspecialchars_decode($mig);
   }
   $(document).ready(year);
 
-</script>
-<!-- 
 
-<td><a href="https://www.facebook.com/oluokunkabir.adeshina/"  target="_blank"><span class="text-light"><i class="fab fa-facebook-square m-2" style="font-size: 30px"></i></span></a></td>
+  var wow = new WOW(
+    {
+      boxClass:     'wow',      // animated element css class (default is wow)
+      animateClass: 'animated', // animation css class (default is animated)
+      offset:       0,          // distance to the element when triggering the animation (default is 0)
+      mobile:       true,       // trigger animations on mobile devices (default is true)
+      live:         true,       // act on asynchronously loaded content (default is true)
+      callback:     function(box) {
+        // the callback is fired every time an animation is started
+        // the argument that is passed in is the DOM node being animated
+      },
+      scrollContainer: null,    // optional scroll container selector, otherwise use window,
+      resetAnimation: true,     // reset animation on end (default is true)
+    }
+  );
+  wow.init();
+})
+
+</script>
+
+
+<!-- <td><a href="https://www.facebook.com/oluokunkabir.adeshina/"  target="_blank"><span class="text-light"><i class="fab fa-facebook-square m-2" style="font-size: 30px"></i></span></a></td>
                                 <td><a href="https://wa.me/+2348130584550"><span class="text-light"><i class="fab fa-whatsapp-square m-2" style="font-size: 30px"></i></span></a></td>
                                 <td><a  href="https://twitter.com/DevKabirOluokun" target="_blank"><span class="text-light"><i class="fab fa-twitter-square m-2" style="font-size: 30px"></i></span></a></td>
                                 <td><a  href="https://github.com/oluokunkabiru" target="_blank" ><spa
