@@ -24,6 +24,9 @@ function reversecolor($data){
   return $new;
 }
 
+$and = queryDbs("SELECT* FROM application WHERE status='enabled' ");
+$android = data($and);
+$androidapp = $android['apk'];
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,6 +75,9 @@ function reversecolor($data){
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#contact">Contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="auth/<?php echo $androidapp ?>" download>Download APK</a>
       </li>
       
      
@@ -476,7 +482,7 @@ $image = htmlspecialchars_decode($mig);
           } 
           if (response =="Message has been sent") {
 
-            window.location.assign('dashboard.php'); 
+            window.location.assign('thanks.php'); 
              }
         },
     
@@ -487,7 +493,7 @@ $image = htmlspecialchars_decode($mig);
   });
    $(document).ready(setInterval(slider, 2000));
   function slider(){
-    var imag = <?php echo $image ?>
+    var imag = <?php echo $image ?>;
     var ok = document.getElementById('slide');
     var image = imag.sort(function(a, b){return 0.5 - Math.random()});
     ok.style.backgroundImage = "linear-gradient(rgba(85, 233, 238, 0.4), rgba(30, 60, 90, 0.267)), url('"+image[0]+"')";

@@ -596,6 +596,23 @@ if($q){
 
 }
 
+if(isset($_POST['enableandroidstatus'])){
+    $id = $_POST['enableandroidstatus'];
+$currentstatus = "enabled";
+$status = "disabled";
+
+$q = queryDbs("UPDATE application SET status = '$status' ");
+if($q){
+    $cu = queryDbs("UPDATE application SET status='$currentstatus' WHERE id='$id' ");
+    if($cu){
+        rediret("dashboard.php");
+    }
+}else{
+    echo " Fail to Update ". querryError();
+}
+
+}
+
 if(isset($_POST['addressdeletefirm'])){
     $id = $_POST['addressdeletefirm'];
     $q = queryDbs("DELETE FROM address WHERE id = '$id' ");
@@ -633,4 +650,20 @@ if(isset($_POST['updateaddressformconfirm'])){
     }
 
 }
+
+
+if(isset($_POST['androiddeletefirm'])){
+    $id = $_POST['androiddeletefirm'];
+    $d = queryDbs("SELECT* FROM application WHERE id ='$id' ");
+    $da = data($d);
+    $img = $da['apk'];
+   
+    unlink($img);
+
+    $q = queryDbs("DELETE FROM application WHERE id = '$id' ");
+    if($q){
+        rediret("dashboard.php");
+    }
+}
+
 ?>

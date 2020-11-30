@@ -79,6 +79,7 @@ if (!empty($_SESSION['loginsuccess'])) {
               <div class="dropdown-menu">
                 <a class="dropdown-item" data-toggle="pill" href="#writer">Writer</a>
                 <a class="dropdown-item" data-toggle="pill" href="#icon">Icons</a>
+                <a class="dropdown-item" data-toggle="pill" href="#androidapp">Android</a>
                 <a class="dropdown-item" data-toggle="pill" href="#address">Address and Contact</a>
               </div>
             </li>
@@ -998,6 +999,109 @@ if (!empty($_SESSION['loginsuccess'])) {
               </div>
             </div>
           </div>
+          <div id="androidapp" class="container tab-pane fade">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <h3 class="text-center text-uppercase">Android Application</h3>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="card-body">
+                  <a href="#addandroidapp" data-toggle="modal" class="btn btn-primary p-2 text-uppercase">add new app</a>
+                  <table class="table table-bordered table-striped table-hover table-responsive">
+                    <thead>
+                      <tr>
+                        <th>S/N</th>
+                        <th>App Name</th>
+                        <th>Version</th>
+                        <th>Link</th>
+                        <th>Date Added</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      $ho = 1;
+                      $h = queryDbs("SELECT* FROM application");
+                      while ($home = data($h)) {    
+                        $name = $home['name'];
+                        $version = $home['version'];
+                        $apk = $home['apk'];
+                        $status = $home['status'];
+                        $ids =$home['id'];                        
+                      ?>
+                        <tr>
+                          <td><?php echo $ho; ?></td>
+                          <td><?php echo html_entity_decode($name); ?> </td>
+                          <td><?php echo $version; ?></td>
+                          <td> <a href="<?php echo html_entity_decode($apk); ?>" download><?php echo html_entity_decode($name); ?></a> </td>
+                          <td><?php echo $home['reg_date']; ?></td>
+                          <td>
+                          <?php 
+                      if ($status == "enabled") {
+                            ?>
+
+                              <h4> <a href="#androidstatus" class="text-success" data-toggle="modal" android="<?php echo $ids ?>">Enabled<span class="text-success mr-2 fa fa-check"></span></a></h4>
+                            <?php
+                            } else {
+                            ?>
+                              <h4> <a href="#androidstatus" class="text-danger" data-toggle="modal" android="<?php echo $ids ?>">Disabled<span class="text-danger mr-2 fa fa-window-close"></span></a></h4>
+
+                            <?php } ?>
+                          </td>
+                          <td>
+
+
+                            <a href="#androiddelete" class=" btn btn-danger" data-toggle="modal" android="<?php echo $ids ?>"><span class="p-2 m-1 fa fa-trash"></span></a>
+                          </td>
+                        </tr>
+                      <?php 
+                    $ho++;
+                    } ?>
+                    </tbody>
+                  </table>
+
+
+                </div>
+              </div>
+              <div class="modal" id="addandroidapp">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Add New Android Application</h4>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <p class="text-danger addandroiderror"></p>
+                      <form id="addandroidform" enctype="multipart/form-data">
+                        <div class="form-group">
+                          <label for="usr">Name</label>
+                          <input type="text" class="form-control" name="name" id="usr">
+                      </div>
+                      <div class="form-group">
+                          <label for="usr">Version</label>
+                          <input type="text" class="form-control" name="version" id="usr">
+                      </div>
+                      <div class="form-group">
+                          <label for="usr">Upload APK</label>
+                          <input type="file" class="form-control" name="apk" id="usr">
+                      </div>
+                     
+                        <button class="btn btn-success btn-lg mr-5 mt-3 float-right">Add App</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
 
 
         </div>
@@ -1213,6 +1317,22 @@ if (!empty($_SESSION['loginsuccess'])) {
       <div id="addressstatus" class="modal">
       <div class="modal-dialog">
         <div class="addressstatus">
+
+        </div>
+      </div>
+      </div>
+
+      <div id="androiddelete" class="modal">
+      <div class="modal-dialog">
+        <div class="androiddelete">
+
+        </div>
+      </div>
+      </div>
+
+      <div id="androidstatus" class="modal">
+      <div class="modal-dialog">
+        <div class="androidstatus">
 
         </div>
       </div>

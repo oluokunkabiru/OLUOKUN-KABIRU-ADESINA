@@ -902,7 +902,62 @@ $(document).ready(function () {
       },
     });
   })
+// android application
+    // addresss
+    $('#addandroidform').submit(function (e) {
+      // alert(xmlh.status);
+      e.preventDefault();
+      var datas = new FormData(this);
+  
+      $.ajax({
+        type: 'POST',
+        url: 'android.php',
+        data: datas,
+        contentType: false,
+        cache: false,
+        processData: false,
+        // dataType:"JSON",
+        success: function (response) {
+      
+          if (response) {
+            $('.addandroiderror').html(response);
+          }
+          if (response == "<h3 class='text-success'>Insert successfully</h2>") {
+            window.location.assign('dashboard.php');
+          }
+        },
+  
+      });
+  
+    })
 
+    $('#androiddelete').on('show.bs.modal', function (e) {
+      var id = $(e.relatedTarget).attr('android');
+      // alert(id);
+      $.ajax({
+        type: 'post',
+        url: 'confirm.php',
+        data: 'androiddelete=' + id,
+        success: function (data) {
+          $('.androiddelete').html(data);
+        }
+      });
+    })
+  
+  
+    $('#androidstatus').on('show.bs.modal', function (e) {
+      var id = $(e.relatedTarget).attr('android');
+      $.ajax({
+        type: 'post',
+        url: 'confirm.php',
+        data: 'androidstatus=' + id,
+        success: function (data) {
+          $('.androidstatus').html(data);
+        }
+      });
+         
+    })
+  
 })
   
   

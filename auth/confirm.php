@@ -652,6 +652,50 @@ if(isset($_POST['homestatus'])){
                   </div>
                     </div>';
                   }
+
+                  if(isset($_POST['androiddelete'])){
+                    $id = $_POST['androiddelete'];
+                    $q = queryDbs("SELECT* FROM application WHERE id = '$id' ");
+                    $data = data($q);
+                    echo '<div class="modal-content">
+                    <div class="modal-header">
+                       <div class ="modal-body">
+                            <h5>Are you sure you want delete <b>'. $data['name'] .'</b></h5>
+                       
+                       </div>
+                       <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                      <div class="modal-footer">
+                   
+                       <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+                       <input type="hidden" value="'.$id.'" name="androiddeletefirm">
+                       <button class="btn btn-danger btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">delete</button>
+                       </form>
+                    </div>
+                      </div>';
+                    }
+
+                    if(isset($_POST['androidstatus'])){
+                      $id = $_POST['androidstatus'];
+                      $q = queryDbs("SELECT* FROM application WHERE id = '$id' ");
+                      $data = data($q);
+                      echo '<div class="modal-content">
+                      <div class="modal-header">
+                         <div class ="modal-body">
+                              <h5>Are you sure you want enable <b> '. html_entity_decode($data['name']) .'</h5>
+                         
+                         </div>
+                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                          </div>
+                        <div class="modal-footer">
+                     
+                         <form id="deleteclassconfirmform" action="confirmed.php" method="POST">
+                         <input type="hidden" value="'.$id.'" name="enableandroidstatus">
+                         <button class="btn btn-success btn-lg text-uppercase btnactivateexaminationconfirm" type="submit">enable</button>
+                         </form>
+                      </div>
+                        </div>';
+                      }
     
 ?>
 

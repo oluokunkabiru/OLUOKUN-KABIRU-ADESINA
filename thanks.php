@@ -1,6 +1,8 @@
 <?php
-if(isset($_SESSION['contactname'])){
 include('auth/db.php');
+session_start();
+if(isset($_SESSION['contactname'])){
+
 $ap = queryDbs("SELECT* FROM appearances WHERE status='enabled' ");
 $co = data($ap);
 $backgroundColor = $co['navbar'];
@@ -39,8 +41,8 @@ $name =$_SESSION['contactname'];
                   margin-right: auto;
                   margin-left: auto;
                   width: 40%;
-                  background-color: '.$backgroundColor.';
-                  color: '.reversecolor($backgroundColor).';
+                  background-color: <?php echo $backgroundColor ?>;
+                  color: <?php echo reversecolor($backgroundColor) ?>;
                   margin-top: 5%;
                   margin-bottom: 20%;
                   padding: 2%;
@@ -63,17 +65,20 @@ $name =$_SESSION['contactname'];
       <body>
           <div class="containers">
               <div class="content">
-                  <h3>Dear <b><?php $name ?></b>,</h3>
+                  <h3>Dear <b><?php echo $name ?></b>,</h3>
                   <h1>Thank you for contact us, we will get back to you <b>shortly</b></h1>
                   
                   </div>
-          </div>
+                 <div class="text-center">
           <a href="index.php" class="btn btn-primary btn-lg text-uppercase"> Go to home </a>
-
+        </div> 
+          </div>
+          
       </body>
       </html>
       <?php
-}else{
+}
+else{
     rediret("index.php");
 }
       ?>
