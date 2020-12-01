@@ -34,10 +34,24 @@ $androidapp = $android['apk'];
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OLUOKUN KABIRU ADESINA</title>
+ <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script> 
+
+<!-- <link rel="stylesheet" href="bootstrap/bootstrap.min.css"> -->
 <link rel="stylesheet" href="bootstrap/animate.css">
+<!-- <link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+/> -->
 <link rel="stylesheet" href="fontawesome-free/css/all.css">
 <link rel="stylesheet" href="style.php">
 <link rel="icon" href="image/9.jpg">
@@ -453,9 +467,9 @@ $image = htmlspecialchars_decode($mig);
 </div>
 </body>
 </html>
-<script src="jquery/jquery.min.js"></script>
+<!-- <script src="jquery/jquery.min.js"></script> -->
 <script src="jquery/wow.min.js"></script>
-<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="bootstrap/js/bootstrap.bundle.min.js"></script> -->
 <script src="script.js"></script>
 <script src="app.js"></script>
 

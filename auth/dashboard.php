@@ -33,10 +33,26 @@ if (!empty($_SESSION['loginsuccess'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="../bootstrap/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="../bootstrap/bootstrap.min.css"> -->
+    
+     <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script> 
+  <!-- include summernote css/js -->
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    
     <link rel="stylesheet" href="../bootstrap/animate.css">
     <link rel="stylesheet" href="../fontawesome-free/css/all.css">
-    <link rel="stylesheet" href="summernote/summernote-bs4.css">
+    <!-- <link rel="stylesheet" href="summernote/summernote-bs4.css"> -->
     <link rel="stylesheet" href="../style.php">
     <link rel="icon" href="../image/9.jpg">
     <link rel="manifest" href="../manifest.jso">
@@ -1349,10 +1365,10 @@ if (!empty($_SESSION['loginsuccess'])) {
 }
 ?>
 
-<script src="../jquery/jquery.min.js"></script>
-<script src="../jquery/popper.js"></script>
-<script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="summernote/summernote-bs4.min.js"></script>
+<!-- <script src="../jquery/jquery.min.js"></script> -->
+<!-- <script src="../jquery/popper.js"></script> -->
+<!-- <script src="../bootstrap/js/bootstrap.bundle.min.js"></script> -->
+<!-- <script src="summernote/summernote-bs4.min.js"></script> -->
 <script src="auth.js"></script>
 <script>
 

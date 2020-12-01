@@ -1,8 +1,12 @@
 <?php
-$server = "localhost";
-$user = "root";
-$password = "";
-$databasename ="portfolio";
+// $server = "localhost";
+// $user = "root";
+// $password = "";
+// $databasename ="portfolio";
+$server = "db4free.net";
+$user = "oluokunportfolio";
+$password = "oluokunportfolio";
+$databasename ="oluokunportfolio";
 $conn = mysqli_connect($server, $user, $password, $databasename);
 
  function test_input($data) {
